@@ -1,0 +1,13 @@
+.author__name {
+    font-weight: 500;
+    font-size: 42px;
+    line-height: 48px;
+    margin: 0px;
+}
+
+@media (max-width: 950px) {
+    .author__name {
+        font-size: 27px;
+        line-height: 33px;
+    }
+}

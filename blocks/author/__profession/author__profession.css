@@ -1,0 +1,13 @@
+.author__profession {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    margin: 16px 0px 0px 0px;
+}
+
+@media (max-width: 950px) {
+    .author__profession {
+        font-size: 14px;
+        line-height: 17px;
+    }
+}
