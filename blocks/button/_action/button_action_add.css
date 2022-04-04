@@ -9,8 +9,7 @@
     box-sizing: border-box;
     border-radius: 2px;
     transition: opacity 1s ease;
-    opacity: 1;
-    
+    opacity: 1; 
 }
 
 @media (max-width: 950px) {

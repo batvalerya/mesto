@@ -8,9 +8,9 @@
     border-bottom-color: rgba(84,84,84,0.7);
 }
 
-@media (max-width: 425px) {
+@media (max-width: 950px) {
     .header {
-        max-width: calc((266/320) * 100%);
+        max-width: 100%;
         padding-top: 28px;
     }
 }  
