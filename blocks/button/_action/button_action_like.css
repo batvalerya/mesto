@@ -7,3 +7,7 @@
     transition: opacity 1s ease;
     opacity: 1; 
 }
+
+.button_action_like:active {
+    background: url(../../../images/like-button-active.svg)
+}
