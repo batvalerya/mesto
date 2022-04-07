@@ -1,0 +1,24 @@
+.button_action_save {
+    min-width: 100%;
+    min-height: 50px;
+    background-color: #000000;
+    color: #fff;
+    align-self: center;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    border-radius: 2px;
+    margin-top: 48px;
+    margin-bottom: 37px;
+}
+
+@media (max-width: 550px) {
+    .button_action_save {
+        min-width: 100%;
+        min-height: 50px;
+        font-size: 14px;
+        line-height: 17px;
+        margin-top: 45px;
+        margin-bottom: 25px;
+    }
+}
