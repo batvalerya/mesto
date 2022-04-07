@@ -9,5 +9,5 @@
 }
 
 .button_action_like:active {
-    background: url(../../../images/like-button-active.svg)
+    background: url(../../../images/like-button-active.svg);
 }
