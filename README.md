@@ -21,6 +21,6 @@
 
 **Проект: Mesto**
 
-* [Ссылка на проект: Mesto](https://batvalerya.github.io/russian-travel/)
+* [Ссылка на проект: Mesto](https://batvalerya.github.io/mesto/)
 
 
