@@ -20,11 +20,11 @@
                     <div class="profile__intro">
                       <div class="author">
                         <h1 class="author__name">Жак-Ив Кусто</h1>
-                        <h2 class="author__profession">Исследователь океана</h2>
+                        <p class="author__profession">Исследователь океана</p>
                       </div>
-                      <button class="button button_action_edit"></button>
+                      <button class="edit-button" type="button"></button>
                     </div>
-                    <button class="button button_action_add"></button>   
+                    <button class="add-button" type="button"></button>   
                 </section>
 
                 <section class="photo-gallery">
@@ -33,42 +33,42 @@
                       <img class="photo-gallery__image" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск">
                       <div class="photo-gallery__caption">
                         <h2 class="photo-gallery__title">Карачаевск</h2>
-                        <button class="button button_action_like"></button>
+                        <button class="like-button like-button_active" type="button"></button>
                       </div>
                     </li>
                     <li class="photo-gallery__item">
                       <img class="photo-gallery__image" src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус">
                       <div class="photo-gallery__caption">
                         <h2 class="photo-gallery__title">Гора Эльбрус</h2>
-                        <button class="button button_action_like"></button>
+                        <button class="like-button like-button_active" type="button"></button>
                       </div>
                     </li>
                     <li class="photo-gallery__item">
                       <img class="photo-gallery__image" src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай">
                       <div class="photo-gallery__caption">
                         <h2 class="photo-gallery__title">Домбай</h2>
-                        <button class="button button_action_like"></button>
+                        <button class="like-button like-button_active" type="button"></button>
                       </div>
                     </li>
                     <li class="photo-gallery__item">
                       <img class="photo-gallery__image" src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус">
                       <div class="photo-gallery__caption">
                         <h2 class="photo-gallery__title">Гора Эльбрус</h2>
-                        <button class="button button_action_like"></button>
+                        <button class="like-button like-button_active" type="button"></button>
                       </div>
                     </li>
                     <li class="photo-gallery__item">
                       <img class="photo-gallery__image" src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай">
                       <div class="photo-gallery__caption">
                         <h2 class="photo-gallery__title">Домбай</h2>
-                        <button class="button button_action_like"></button>
+                        <button class="like-button like-button_active" type="button"></button>
                       </div>
                     </li>
                     <li class="photo-gallery__item">
                       <img class="photo-gallery__image" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Карачаево">
                       <div class="photo-gallery__caption">
                         <h2 class="photo-gallery__title">Карачаево</h2>
-                        <button class="button button_action_like"></button>
+                        <button class="like-button like-button_active" type="button"></button>
                       </div>
                     </li>
                   </ul>
@@ -81,15 +81,15 @@
 
           <div class="popup">
             <div class="popup__container">
-              <button class="button button_action_close" type="button"></button>
+              <button class="close-button" type="button"></button>
               <h2 class="popup__title">Редактировать профиль</h2>
-              <form class="popup__form">
-                <input class="popup__input popup__input_name" type="text" name="name" placeholder="Имя" value="Жак-Ив Кусто">
-                <input class="popup__input popup__input_description" type="text" name="description" placeholder="О себе" value="Исследователь океана">
-                <button class="button button_action_save" type="submit">Сохранить</button>
+              <form class="popup__form" name="aboutUser">
+                <input class="popup__input popup__input_type_name" type="text" name="name" placeholder="Имя" value>
+                <input class="popup__input popup__input_type_description" type="text" name="description" placeholder="О себе" value>
+                <button class="save-button" type="submit">Сохранить</button>
               </form>
             </div>
           </div>
-          <script src="script.js"></script>
+          <script src="scripts/index.js"></script>
       </body>
 </html>
