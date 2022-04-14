@@ -1,7 +1,7 @@
-.add-button  {
+.profile__add-button  {
     min-width: 150px;
     height: 50px;
-    background: url(../../images/add-button.svg) no-repeat center;
+    background: url(../../../images/add-button.svg) no-repeat center;
     background-size: 22px;
     padding: 0;
     margin: 35px 0px 35px auto;
@@ -11,13 +11,13 @@
     box-sizing: border-box;
 }
 
-.add-button:hover {
+.profile__add-button:hover {
     transition: opacity 1s ease;
     opacity: 0.6;
 }
 
 @media (max-width: 950px) {
-    .add-button  {
+    .profile__add-button {
         min-width: 100%;
         margin: 0 auto;
         background-size: 17px;

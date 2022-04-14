@@ -3,6 +3,7 @@
     visibility: hidden;
     opacity: 0;
     transition: visibility 0.3s linear, opacity 0.3s linear;
+    display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, .5);
