@@ -29,54 +29,16 @@
 
                 <section class="photo-gallery">
                   <ul class="photo-gallery__items">
-                    <li class="photo-gallery__item">
-                      <button class="photo-gallery__delete-button" type="button"></button>
-                      <img class="photo-gallery__image" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск">
-                      <div class="photo-gallery__caption">
-                        <h2 class="photo-gallery__title">Карачаевск</h2>
-                        <button class="like-button like-button_active" type="button"></button>
-                      </div>
-                    </li>
-                    <li class="photo-gallery__item">
-                      <button class="photo-gallery__delete-button" type="button"></button>
-                      <img class="photo-gallery__image" src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус">
-                      <div class="photo-gallery__caption">
-                        <h2 class="photo-gallery__title">Гора Эльбрус</h2>
-                        <button class="like-button like-button_active" type="button"></button>
-                      </div>
-                    </li>
-                    <li class="photo-gallery__item">
-                      <button class="photo-gallery__delete-button" type="button"></button>
-                      <img class="photo-gallery__image" src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай">
-                      <div class="photo-gallery__caption">
-                        <h2 class="photo-gallery__title">Домбай</h2>
-                        <button class="like-button like-button_active" type="button"></button>
-                      </div>
-                    </li>
-                    <li class="photo-gallery__item">
-                      <button class="photo-gallery__delete-button" type="button"></button>
-                      <img class="photo-gallery__image" src="./images/kirill-pershin-1404681-unsplash.png" alt="Гора Эльбрус">
-                      <div class="photo-gallery__caption">
-                        <h2 class="photo-gallery__title">Гора Эльбрус</h2>
-                        <button class="like-button like-button_active" type="button"></button>
-                      </div>
-                    </li>
-                    <li class="photo-gallery__item">
-                      <button class="photo-gallery__delete-button" type="button"></button>
-                      <img class="photo-gallery__image" src="./images/kirill-pershin-1556355-unsplash.png" alt="Домбай">
-                      <div class="photo-gallery__caption">
-                        <h2 class="photo-gallery__title">Домбай</h2>
-                        <button class="like-button like-button_active" type="button"></button>
-                      </div>
-                    </li>
-                    <li class="photo-gallery__item">
-                      <button class="photo-gallery__delete-button" type="button"></button>
-                      <img class="photo-gallery__image" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Карачаево">
-                      <div class="photo-gallery__caption">
-                        <h2 class="photo-gallery__title">Карачаево</h2>
-                        <button class="like-button like-button_active" type="button"></button>
-                      </div>
-                    </li>
+                    <template id="photo-gallery__item">
+                      <li class="photo-gallery__item">
+                        <button class="photo-gallery__delete-button" type="button"></button>
+                        <img class="photo-gallery__image" src="" alt="">
+                        <div class="photo-gallery__caption">
+                          <h2 class="photo-gallery__title"></h2>
+                          <button class="like-button" type="button"></button>
+                        </div>
+                      </li>
+                    </template>
                   </ul>
                 </section>
               </main>
@@ -98,15 +60,23 @@
             </div>
           </div>
 
-          <div class="popup">
+          <div class="popup popup__add-card">
             <div class="popup__container">
               <button class="popup__close-button" type="button"></button>
               <h2 class="popup__title">Новое место</h2>
-              <form class="popup__form" name="newPlace">
-                <input class="popup__input popup__input_type_namePlace" type="text" name="name" placeholder="Название" value>
-                <input class="popup__input popup__input_type_img" type="text" name="img" placeholder="Ссылка на картинку" value>
+              <form class="popup__form" name="addCard">
+                <input class="popup__input popup__input_type_new-name" type="text" name="name" placeholder="Название" value>
+                <input class="popup__input popup__input_type_link" type="text" name="link" placeholder="Ссылка на картинку" value>
                 <button class="popup__create-button" type="submit">Создать</button>
               </form>
+            </div>
+          </div>
+
+          <div class="popup popup__card">
+            <div class="popup__card-container">
+              <button class="popup__close-button" type="button"></button>
+              <img class="popup__card-img" src="" alt="">
+              <h2 class="popup__card-title"></h2>
             </div>
           </div>
 
