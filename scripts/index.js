@@ -37,8 +37,8 @@ initialCards.forEach(function(item) {
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const closeButtons = document.querySelectorAll('.popup__close-button');
-const popupWindowEdit = document.querySelector('.popup__edit-profile');
-const popupWindowAdd = document.querySelector('.popup__add-card');
+const popupWindowEdit = document.querySelector('.popup_edit-profile');
+const popupWindowAdd = document.querySelector('.popup_add-card');
 let authorName = document.querySelector('.author__name');
 let profession = document.querySelector('.author__profession');
 let nameInput = document.querySelector('.popup__input_type_name');
@@ -108,7 +108,7 @@ function addListenerImage(card){
   const cardImage = card.querySelector('.photo-gallery__image');
   cardImage.addEventListener('click', function (evt) {
     const eventTarget = evt.target;
-    const popupCard = document.querySelector('.popup__card');
+    const popupCard = document.querySelector('.popup_card');
     let popupCardImg = document.querySelector('.popup__card-img');
     let popupCardTitle = document.querySelector('.popup__card-title');
     popupCardImg.src = eventTarget.src;
