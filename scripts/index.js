@@ -26,56 +26,81 @@ const initialCards = [
 ];
 const cardTemplate = document.querySelector('#photo-gallery__item').content;
 const cardsContainer = document.querySelector('.photo-gallery__items');
-initialCards.forEach(function(item) {
-  const card = cardTemplate.querySelector('.photo-gallery__item').cloneNode(true);
-  const title = item["name"]
-  const image = item["link"]
-  card.querySelector('.photo-gallery__image').src = image;
-  card.querySelector('.photo-gallery__title').textContent = title;
-  cardsContainer.append(card);
-})
+// initialCards.forEach(function(item) {
+//   const card = cardTemplate.querySelector('.photo-gallery__item').cloneNode(true);
+//   const title = item["name"]
+//   const image = item["link"]
+//   card.querySelector('.photo-gallery__image').src = image;
+//   card.querySelector('.photo-gallery__image').setAttribute('alt', title);
+//   card.querySelector('.photo-gallery__title').textContent = title;
+//   cardsContainer.append(card);
+// })
+
+// function createCard(item) {
+//   const cardElement = cardTemplate.querySelector('.photo-gallery__item');
+//   const title = item["name"]
+//   const image = item["link"]
+//   cardElement.querySelector('.photo-gallery__image').src = image;
+//   cardElement.querySelector('.photo-gallery__image').setAttribute('alt', title);
+//   cardElement.querySelector('.photo-gallery__title').textContent = title;
+//   return cardElement
+// }
+
+
+
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const closeButtons = document.querySelectorAll('.popup__close-button');
+const saveButton = document.querySelector('.popup__save-button');
+const createButton = document.querySelector('.popup__create-button')
 const popupWindowEdit = document.querySelector('.popup_edit-profile');
 const popupWindowAdd = document.querySelector('.popup_add-card');
-let authorName = document.querySelector('.author__name');
-let profession = document.querySelector('.author__profession');
-let nameInput = document.querySelector('.popup__input_type_name');
-let professionInput = document.querySelector('.popup__input_type_description');
+const authorName = document.querySelector('.author__name');
+const profession = document.querySelector('.author__profession');
+const nameInput = document.querySelector('.popup__input_type_name');
+const professionInput = document.querySelector('.popup__input_type_description');
+const newNameInput = document.querySelector('.popup__input_type_new-name');
+const linkInput = document.querySelector('.popup__input_type_link');
 const cards = document.querySelectorAll('.photo-gallery__item');
-let formElement = document.querySelector('.popup__form');
+const editForm = document.forms.aboutUser;
+const addCardForm = document.forms.addCard;
 
 // СЛУШАТЕЛИ
-editButton.addEventListener('click',  togglePopupEdit);
-addButton.addEventListener('click',  togglePopupAdd);
+editButton.addEventListener('click',  openPopupEdit);
+addButton.addEventListener('click',  openPopupAdd);
+saveButton.addEventListener('click', closePopup);
+createButton.addEventListener('click', closePopup);
 closeButtons.forEach(function(item) {
-    item.addEventListener('click', togglePopupClose);
+    item.addEventListener('click', closePopup);
 });
-cards.forEach(function (card) {
-  addListenersCard(card)
-});
-formElement.addEventListener('submit', formSubmitHandler); 
-document.forms.addCard.addEventListener('submit', addCadrFormSubmitHandler);
+
+// cards.forEach(function (card) {
+//   addListenersCard(card)
+// });
+editForm.addEventListener('submit', handleEditFormSubmit); 
+addCardForm.addEventListener('submit', handleAddCardFormSubmit);
 
 // ФУНКЦИИ
-function togglePopup(popupWindow) {
-    popupWindow.classList.toggle('popup_is-opened');
+function openPopup(popup) {
+  popup.classList.add('popup_is-opened');
 }
 
-function togglePopupEdit() {
+function closePopup(evt) {
+  const eventTarget = evt.target.closest('.popup');
+  console.log(eventTarget)
+  eventTarget.classList.remove('popup_is-opened');
+}
+
+function openPopupEdit() {
     nameInput.value = authorName.textContent;
     professionInput.value = profession.textContent;
-    togglePopup(popupWindowEdit)
+    openPopup(popupWindowEdit)
 }
 
-function togglePopupAdd() {
-    togglePopup(popupWindowAdd)
-}
-
-function togglePopupClose(evt) {
-    const eventTarget = evt.target;
-    togglePopup(eventTarget.parentElement.parentElement)
+function openPopupAdd() {
+  newNameInput.value = '';
+  linkInput.value = '';
+  openPopup(popupWindowAdd)
 }
 
 // function popupWindowClose(event) {
@@ -84,23 +109,19 @@ function togglePopupClose(evt) {
 //     } 
 // }
 
-function formSubmitHandler (evt) {
+function handleEditFormSubmit (evt) {
 
     evt.preventDefault(); 
     authorName.textContent = nameInput.value;
     profession.textContent = professionInput.value;
-    togglePopup(popupWindowEdit)
 }
 
-function addCadrFormSubmitHandler (evt) {
+function handleAddCardFormSubmit (evt) {
   const card = cardTemplate.querySelector('.photo-gallery__item').cloneNode(true);
-  let newNameInput = document.querySelector('.popup__input_type_new-name');
-  let linkInput = document.querySelector('.popup__input_type_link');
   evt.preventDefault(); 
   card.querySelector('.photo-gallery__image').src = linkInput.value;
   card.querySelector('.photo-gallery__title').textContent = newNameInput.value;
   cardsContainer.prepend(card);
-  togglePopup(popupWindowAdd);
   addListenersCard(card);
 }
  
