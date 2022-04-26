@@ -24,29 +24,15 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
 const cardTemplate = document.querySelector('#photo-gallery__item').content;
 const cardsContainer = document.querySelector('.photo-gallery__items');
-// initialCards.forEach(function(item) {
-//   const card = cardTemplate.querySelector('.photo-gallery__item').cloneNode(true);
-//   const title = item["name"]
-//   const image = item["link"]
-//   card.querySelector('.photo-gallery__image').src = image;
-//   card.querySelector('.photo-gallery__image').setAttribute('alt', title);
-//   card.querySelector('.photo-gallery__title').textContent = title;
-//   cardsContainer.append(card);
-// })
 
-// function createCard(item) {
-//   const cardElement = cardTemplate.querySelector('.photo-gallery__item');
-//   const title = item["name"]
-//   const image = item["link"]
-//   cardElement.querySelector('.photo-gallery__image').src = image;
-//   cardElement.querySelector('.photo-gallery__image').setAttribute('alt', title);
-//   cardElement.querySelector('.photo-gallery__title').textContent = title;
-//   return cardElement
-// }
-
-
+initialCards.forEach(function(item) {
+  const card = createCard(item["name"], item["link"]);
+  cardsContainer.append(card);
+  addListenersCard(card);
+})
 
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
@@ -64,6 +50,9 @@ const linkInput = document.querySelector('.popup__input_type_link');
 const cards = document.querySelectorAll('.photo-gallery__item');
 const editForm = document.forms.aboutUser;
 const addCardForm = document.forms.addCard;
+const popupCard = document.querySelector('.popup_card');
+const popupCardImg = document.querySelector('.popup__card-img');
+const popupCardTitle = document.querySelector('.popup__card-title');
 
 // СЛУШАТЕЛИ
 editButton.addEventListener('click',  openPopupEdit);
@@ -73,10 +62,6 @@ createButton.addEventListener('click', closePopup);
 closeButtons.forEach(function(item) {
     item.addEventListener('click', closePopup);
 });
-
-// cards.forEach(function (card) {
-//   addListenersCard(card)
-// });
 editForm.addEventListener('submit', handleEditFormSubmit); 
 addCardForm.addEventListener('submit', handleAddCardFormSubmit);
 
@@ -110,28 +95,31 @@ function openPopupAdd() {
 // }
 
 function handleEditFormSubmit (evt) {
-
     evt.preventDefault(); 
     authorName.textContent = nameInput.value;
     profession.textContent = professionInput.value;
 }
 
-function handleAddCardFormSubmit (evt) {
-  const card = cardTemplate.querySelector('.photo-gallery__item').cloneNode(true);
-  evt.preventDefault(); 
-  card.querySelector('.photo-gallery__image').src = linkInput.value;
-  card.querySelector('.photo-gallery__title').textContent = newNameInput.value;
-  cardsContainer.prepend(card);
-  addListenersCard(card);
+function createCard(title, image) {
+  const cardElement = cardTemplate.querySelector('.photo-gallery__item').cloneNode(true);
+  cardElement.querySelector('.photo-gallery__image').src = image;
+  cardElement.querySelector('.photo-gallery__image').setAttribute('alt', title);
+  cardElement.querySelector('.photo-gallery__title').textContent = title;
+  return cardElement
 }
+
+function handleAddCardFormSubmit (evt) {
+  evt.preventDefault(); 
+  newCard = createCard(newNameInput.value, linkInput.value);
+  cardsContainer.prepend(newCard);
+  addListenersCard(newCard);
+}
+
  
 function addListenerImage(card){
   const cardImage = card.querySelector('.photo-gallery__image');
   cardImage.addEventListener('click', function (evt) {
     const eventTarget = evt.target;
-    const popupCard = document.querySelector('.popup_card');
-    let popupCardImg = document.querySelector('.popup__card-img');
-    let popupCardTitle = document.querySelector('.popup__card-title');
     popupCardImg.src = eventTarget.src;
     popupCardTitle.textContent = eventTarget.parentElement.querySelector('.photo-gallery__title').textContent;
     popupCard.classList.toggle('popup_is-opened');
