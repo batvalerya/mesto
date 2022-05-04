@@ -33,6 +33,7 @@ initialCards.forEach(function(item) {
   cardsContainer.append(card);
 })
 
+const popupOverlays = document.querySelectorAll('.popup');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const closeButtons = document.querySelectorAll('.popup__close-button');
@@ -53,6 +54,7 @@ const popupCard = document.querySelector('.popup_card');
 const popupCardImg = document.querySelector('.popup__card-img');
 const popupCardTitle = document.querySelector('.popup__card-title');
 
+
 // СЛУШАТЕЛИ
 editButton.addEventListener('click',  openPopupEdit);
 addButton.addEventListener('click',  openPopupAdd);
@@ -63,6 +65,12 @@ closeButtons.forEach(function(item) {
 });
 editForm.addEventListener('submit', handleEditFormSubmit); 
 addCardForm.addEventListener('submit', handleAddCardFormSubmit);
+popupOverlays.forEach(function(popupOver) {
+  popupOver.addEventListener('click', closePopupOverlay);
+});
+
+
+
 
 // ФУНКЦИИ
 function openPopup(popup) {
@@ -85,11 +93,20 @@ function openPopupAdd() {
   openPopup(popupWindowAdd)
 }
 
-// function popupWindowClose(event) {
-//     if (event.target === event.currentTarget) {
-//         togglePopup();
-//     } 
-// }
+function closePopupOverlay(event) {
+  if (event.target === event.currentTarget) {
+    closePopup();
+  } 
+}
+
+function closePopupEsc(event) {
+  console.log(event.key);
+  if (event.key === 'Escape') {
+    closePopup();
+  } 
+}
+
+
 
 function handleEditFormSubmit (evt) {
     evt.preventDefault(); 
@@ -145,4 +162,64 @@ function addListenersCard(card) {
   addListenerLikeButton(card);
   addListenerDeleteButton(card);
 }
+
+
+// функция Включить проверку 
+function enableValidation(formSelector) {
+  const popupForm = document.querySelector(formSelector);
+  // popupForm.addEventListener('submit', (event) => handleFormSubmit(event, popupForm));
+  popupForm.addEventListener('input', (event) => handleFormInput(event, formSelector));
+};
+
+// обработать событие валидации формы
+// function handleFormSubmit(event, popupForm) {
+//   event.preventDefault();
+//   // проверяем на валидность элемент. на котором сработало событие - позволяет нам сказать в целом валидна ли наша форма
+//   if (popupForm.checkValidity()) {
+//     console.log('Форма валидна');
+//   } else {
+//     console.log('Форма не валидна');
+//   } 
+// };
+
+// обработать событие валидации поля
+function handleFormInput(event, formSelector) {
+  console.log(event);
+  //получили поле формы, с которым будем работать 
+  const popupInput = event.target;
+  //получили элемент ошибки к этому полю'
+  const errorNode = document.querySelector(`#${popupInput.id}-error`);
+  
+  if (popupInput.validity.valid) {
+    errorNode.textContent = '';
+    popupInput.classList.remove('popup__input_type_error');
+  } else {
+    popupInput.classList.add('popup__input_type_error');
+    errorNode.textContent = popupInput.validationMessage;
+  }
+  toggleButton(formSelector);
+};
+
+enableValidation('.popup__form');
+
+
+function toggleButton(formSelector) {
+  const popupForm = document.querySelector(formSelector);
+  const button = popupForm.querySelector('.popup__submit');
+  button.disabled = !popupForm.checkValidity();
+  button.classList.toggle('popup__submit_inactive', !popupForm.checkValidity());
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 
