@@ -53,6 +53,11 @@ const addCardForm = document.forms.addCard;
 const popupCard = document.querySelector('.popup_card');
 const popupCardImg = document.querySelector('.popup__card-img');
 const popupCardTitle = document.querySelector('.popup__card-title');
+const configForm ={
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  buttonSelector: '.popup__submit',
+}
 
 
 // СЛУШАТЕЛИ
@@ -70,43 +75,57 @@ popupOverlays.forEach(function(popupOver) {
 });
 
 
-
-
 // ФУНКЦИИ
 function openPopup(popup) {
   popup.classList.add('popup_is-opened');
+  addListenerEsc(document);
 }
 
 function closePopup() {
   const openedPopup = document.querySelector('.popup_is-opened');
   openedPopup.classList.remove('popup_is-opened');
+  removeListenerEsc(document);
 }
 
 function openPopupEdit() {
     nameInput.value = authorName.textContent;
     professionInput.value = profession.textContent;
-    openPopup(popupWindowEdit)
+    openPopup(popupWindowEdit);
+    getInputs(editForm, configForm).forEach(function(input){
+      showHideError(input);
+    });
+    toggleButton(editForm, configForm);
 }
 
 function openPopupAdd() {
   addCardForm.reset();
-  openPopup(popupWindowAdd)
+  openPopup(popupWindowAdd);
+  getInputs(addCardForm, configForm).forEach(function(input){
+    showHideError(input);
+  });
+  toggleButton(addCardForm, configForm);
 }
 
 function closePopupOverlay(event) {
+
   if (event.target === event.currentTarget) {
     closePopup();
   } 
 }
 
+function addListenerEsc(form) {
+  form.addEventListener('keydown', closePopupEsc);
+}
+
+function removeListenerEsc(form) {
+  form.removeEventListener('keydown', closePopupEsc);
+}
+
 function closePopupEsc(event) {
-  console.log(event.key);
   if (event.key === 'Escape') {
     closePopup();
   } 
 }
-
-
 
 function handleEditFormSubmit (evt) {
     evt.preventDefault(); 
@@ -164,48 +183,52 @@ function addListenersCard(card) {
 }
 
 
-// функция Включить проверку 
-function enableValidation(formSelector) {
-  const popupForm = document.querySelector(formSelector);
-  // popupForm.addEventListener('submit', (event) => handleFormSubmit(event, popupForm));
-  popupForm.addEventListener('input', (event) => handleFormInput(event, formSelector));
+function addEnableValidation() {
+  const popupForms = document.querySelectorAll('.popup__form');
+  popupForms.forEach(function(item) {
+    enableValidation(config)
+  })
+}
+
+function getInputs(popupForm, config) {
+  const inputs = popupForm.querySelectorAll(config.inputSelector);
+  return inputs;
 };
 
-// обработать событие валидации формы
-// function handleFormSubmit(event, popupForm) {
-//   event.preventDefault();
-//   // проверяем на валидность элемент. на котором сработало событие - позволяет нам сказать в целом валидна ли наша форма
-//   if (popupForm.checkValidity()) {
-//     console.log('Форма валидна');
-//   } else {
-//     console.log('Форма не валидна');
-//   } 
-// };
+
+function enableValidation(config) {
+  const popupForms = document.querySelectorAll(config.formSelector);
+  popupForms.forEach(function(popupForm) {
+    getInputs(popupForm, config).forEach((element) => {
+      element.addEventListener('input', (event) => handleFormInput(event, popupForm, config));
+    })
+  })
+};
+
 
 // обработать событие валидации поля
-function handleFormInput(event, formSelector) {
-  console.log(event);
+function handleFormInput(event, popupForm, config) {
   //получили поле формы, с которым будем работать 
   const popupInput = event.target;
-  //получили элемент ошибки к этому полю'
-  const errorNode = document.querySelector(`#${popupInput.id}-error`);
-  
-  if (popupInput.validity.valid) {
-    errorNode.textContent = '';
-    popupInput.classList.remove('popup__input_type_error');
-  } else {
-    popupInput.classList.add('popup__input_type_error');
-    errorNode.textContent = popupInput.validationMessage;
-  }
-  toggleButton(formSelector);
+  showHideError(popupInput);
+  toggleButton(popupForm, config);
 };
 
-enableValidation('.popup__form');
+function showHideError(field) {
+  const errorNode = document.querySelector(`#${field.id}-error`);
+  if (field.validity.valid) {
+    errorNode.textContent = '';
+    field.classList.remove('popup__input_type_error');
+  } else {
+    field.classList.add('popup__input_type_error');
+    errorNode.textContent = field.validationMessage;
+  }
+};
 
+enableValidation(configForm);
 
-function toggleButton(formSelector) {
-  const popupForm = document.querySelector(formSelector);
-  const button = popupForm.querySelector('.popup__submit');
+function toggleButton(popupForm, config) {
+  const button = popupForm.querySelector(config.buttonSelector);
   button.disabled = !popupForm.checkValidity();
   button.classList.toggle('popup__submit_inactive', !popupForm.checkValidity());
 };
