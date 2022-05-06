@@ -109,12 +109,12 @@ function closePopupOverlay(event) {
   } 
 }
 
-function addListenerEsc(form) {
-  form.addEventListener('keydown', closePopupEsc);
+function addListenerEsc(document) {
+  document.addEventListener('keydown', closePopupEsc);
 }
 
-function removeListenerEsc(form) {
-  form.removeEventListener('keydown', closePopupEsc);
+function removeListenerEsc(document) {
+  document.removeEventListener('keydown', closePopupEsc);
 }
 
 function closePopupEsc(event) {
@@ -152,6 +152,7 @@ function addListenerImage(card){
     popupCardImg.src = eventTarget.src;
     popupCardTitle.textContent = eventTarget.parentElement.querySelector('.photo-gallery__title').textContent;
     popupCard.classList.toggle('popup_is-opened');
+    addListenerEsc(document);
   });
 }
 
