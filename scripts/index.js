@@ -161,7 +161,9 @@ function addListenerImage(card){
     const eventTarget = evt.target;
     popupCardImg.src = eventTarget.src;
     popupCardTitle.textContent = eventTarget.parentElement.querySelector('.photo-gallery__title').textContent;
-    openPopup(popupCard)
+    cardImgAlt = eventTarget.getAttribute('alt');
+    popupCardImg.setAttribute('alt', cardImgAlt);
+    openPopup(popupCard);
   });
 }
 
