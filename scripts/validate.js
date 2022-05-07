@@ -2,10 +2,6 @@ const configForm ={
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     buttonSelector: '.popup__submit',
-  }
-
-function addEnableValidation() {
-  enableValidation(config);
 }
   
 function getInputs(popupForm, config) {
