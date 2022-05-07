@@ -5,10 +5,7 @@ const configForm ={
   }
 
 function addEnableValidation() {
-    const popupForms = document.querySelectorAll('.popup__form');
-    popupForms.forEach(function(item) {
-      enableValidation(config)
-    })
+  enableValidation(config);
 }
   
 function getInputs(popupForm, config) {
