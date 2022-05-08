@@ -61,9 +61,6 @@ editButton.addEventListener('click',  openPopupEdit);
 addButton.addEventListener('click',  openPopupAdd);
 saveButton.addEventListener('click', closePopup);
 createButton.addEventListener('click', closePopup);
-closeButtons.forEach(function(item) {
-    item.addEventListener('click', closePopup);
-});
 editForm.addEventListener('submit', handleEditFormSubmit); 
 addCardForm.addEventListener('submit', handleAddCardFormSubmit);
 
@@ -73,6 +70,9 @@ function openPopup(popup) {
   popup.classList.add('popup_is-opened');
   addListenerEsc(document);
   addListenerOverlay(popupOverlays);
+  closeButtons.forEach(function(item) {
+    item.addEventListener('click', closePopup);
+  });
 }
 
 function closePopup() {
@@ -80,6 +80,9 @@ function closePopup() {
   openedPopup.classList.remove('popup_is-opened');
   removeListenerEsc(document);
   removeListenerOverlay(popupOverlays);
+  closeButtons.forEach(function(item) {
+    item.removeEventListener('click', closePopup);
+  });
 }
 
 function openPopupEdit() {
