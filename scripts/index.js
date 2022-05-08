@@ -83,6 +83,8 @@ function closePopup() {
   closeButtons.forEach(function(item) {
     item.removeEventListener('click', closePopup);
   });
+  editForm.removeEventListener('submit', handleEditFormSubmit); 
+  addCardForm.removeEventListener('submit', handleAddCardFormSubmit);
 }
 
 function openPopupEdit() {
