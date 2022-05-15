@@ -161,6 +161,7 @@ function handleAddCardFormSubmit(evt) {
   const newCard = createCard(newNameInput.value, linkInput.value);
   cardsContainer.prepend(newCard);
   console.log('khkjhkj')
+  addCardForm.removeEventListener('submit', handleAddCardFormSubmit);
 }
 
  
