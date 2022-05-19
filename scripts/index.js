@@ -26,13 +26,6 @@ const initialCards = [
 ];
 
 
-
-// initialCards.forEach(function(item) {
-//   const card = createCard(item["name"], item["link"]);
-//   cardsContainer.append(card);
-// })
-
-// const popupOverlays = document.querySelectorAll('.popup');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const closeButtons = document.querySelectorAll('.popup__close-button');
@@ -46,12 +39,9 @@ const nameInput = document.querySelector('.popup__input_type_name');
 const professionInput = document.querySelector('.popup__input_type_description');
 const newNameInput = document.querySelector('.popup__input_type_new-name');
 const linkInput = document.querySelector('.popup__input_type_link');
-// const cards = document.querySelectorAll('.photo-gallery__item');
+
 const editForm = document.forms.aboutUser;
 const addCardForm = document.forms.addCard;
-// const popupCard = document.querySelector('.popup_card');
-// const popupCardImg = document.querySelector('.popup__card-img');
-// const popupCardTitle = document.querySelector('.popup__card-title');
 
 const popupCard = document.querySelector('.popup_card');
 const cardImage = document.querySelector('.photo-gallery__image');
@@ -153,66 +143,19 @@ function handleEditFormSubmit(evt) {
     profession.textContent = professionInput.value;
 }
 
-// function createCard(title, image) {
-//   const cardElement = cardTemplate.querySelector('.photo-gallery__item').cloneNode(true);
-//   cardElement.querySelector('.photo-gallery__image').src = image;
-//   cardElement.querySelector('.photo-gallery__image').setAttribute('alt', title);
-//   cardElement.querySelector('.photo-gallery__title').textContent = title;
-//   addListenersCard(cardElement);
-//   return cardElement
-// }
 
 function handleAddCardFormSubmit(evt) {
   evt.preventDefault(); 
-  // const newCard = createCard(newNameInput.value, linkInput.value);
-  // cardsContainer.prepend(newCard);
-  console.log('khkjhkj')
+  const name = newNameInput.value
+  const link = linkInput.value
+  const newCardClass = new Card({name: name, link: link }, '.templateCard');
+
+  const newCard = newCardClass.createCard();
+  document.querySelector('.photo-gallery__items').prepend(newCard);
+  
+
   addCardForm.removeEventListener('submit', handleAddCardFormSubmit);
 }
-
- 
-// function addListenerImage(card){
-//   const cardImage = card.querySelector('.photo-gallery__image');
-//   cardImage.addEventListener('click', function (evt) {
-//     const eventTarget = evt.target;
-//     popupCardImg.src = eventTarget.src;
-//     popupCardTitle.textContent = eventTarget.parentElement.querySelector('.photo-gallery__title').textContent;
-//     const cardImgAlt = eventTarget.getAttribute('alt');
-//     popupCardImg.setAttribute('alt', cardImgAlt);
-//     openPopup(popupCard);
-//   });
-// }
-
-// function addListenerDeleteButton(card){
-//   const deleteButton = card.querySelector('.photo-gallery__delete-button');
-//   deleteButton.addEventListener('click', function (evt) {
-//     const eventTarget = evt.target;
-//     const card = eventTarget.closest('.photo-gallery__item');
-//     card.remove();
-//   });
-// }
-
-// function addListenerLikeButton(card){
-//   const likeButton = card.querySelector('.like-button');
-//   likeButton.addEventListener('click', function (evt) {
-//     const eventTarget = evt.target;
-//     eventTarget.classList.toggle('like-button_active');
-//   });
-// }
-
-// function addListenersCard(card) {
-//   addListenerImage(card);
-//   addListenerLikeButton(card);
-//   addListenerDeleteButton(card);
-// }
-
-
-// const popupCard = document.querySelector('.popup_card');
-// const cardImage = document.querySelector('.photo-gallery__image');
-// const popupCardImg = document.querySelector('.popup__card-img');
-// const popupCardTitle = document.querySelector('.popup__card-title');
-// const popupCloseButtons = document.querySelectorAll('.popup__close-button');
-// const popupOverlays = document.querySelectorAll('.popup');
 
 
 class Card {
@@ -274,7 +217,6 @@ class Card {
       this._handleDeleteButton();
     })
 
-    // надо подумать как это можно упросить, все относится к закрытию попапа
     popupCloseButtons.forEach((popupCloseButton) => {
       popupCloseButton.addEventListener('click', () => {
         this._handleClosePopup();
@@ -301,8 +243,9 @@ class Card {
 
 }
 
+
 initialCards.forEach((initialCard) => {
-  const cardClass = new Card(initialCard, '.initialCard');
+  const cardClass = new Card(initialCard, '.templateCard');
   const card = cardClass.createCard();
   document.querySelector('.photo-gallery__items').append(card);
 })
