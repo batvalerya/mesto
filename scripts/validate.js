@@ -1,35 +1,44 @@
-const configForm ={
+const configFormEdit ={
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     buttonSelector: '.popup__submit',
+    elementOpenPopupSelector: '.profile__edit-button'
 }
-  
-function getInputs(popupForm, config) {
-    const inputs = popupForm.querySelectorAll(config.inputSelector);
+
+const configFormAdd ={
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  buttonSelector: '.popup__submit',
+  elementOpenPopupSelector: '.profile__add-button'
+}
+
+class FormValidate {
+  constructor(config, form) {
+    this._elementOpenPopupSelector = config.elementOpenPopupSelector;
+    this._inputSelector = config.inputSelector;
+    this._buttonSelector = config.buttonSelector;
+    this._form = form;
+  }
+
+  _getInputs() {
+    const inputs = this._form.querySelectorAll(this._inputSelector);
     return inputs;
-};
-  
-  
-function enableValidation(config) {
-    const popupForms = document.querySelectorAll(config.formSelector);
-    popupForms.forEach(function(popupForm) {
-      getInputs(popupForm, config).forEach((element) => {
-        element.addEventListener('input', (event) => handleFormInput(event, popupForm, config));
-      })
+  }
+
+  enableValidation() {
+    this._getInputs().forEach((input) => {
+      input.addEventListener('input', (event) => this._handleFormInput(event));
     })
-};
+    this._setEventListeners();
+  }
   
-enableValidation(configForm);
-  
-// обработать событие валидации поля
-function handleFormInput(event, popupForm, config) {
-    //получили поле формы, с которым будем работать 
+  _handleFormInput(event) {
     const popupInput = event.target;
-    showHideError(popupInput);
-    toggleButton(popupForm, config);
-};
-  
-function showHideError(field) {
+    this._showHideError(popupInput);
+    this._toggleButton();
+  }
+
+  _showHideError(field) {
     const errorNode = document.querySelector(`#${field.id}-error`);
     if (field.validity.valid) {
       errorNode.textContent = '';
@@ -38,11 +47,36 @@ function showHideError(field) {
       field.classList.add('popup__input_type_error');
       errorNode.textContent = field.validationMessage;
     }
-};
-  
-function toggleButton(popupForm, config) {
-    const button = popupForm.querySelector(config.buttonSelector);
-    button.disabled = !popupForm.checkValidity();
-    button.classList.toggle('popup__submit_inactive', !popupForm.checkValidity());
-};
-  
+  }
+
+  _toggleButton() {
+    const button = this._form.querySelector(this._buttonSelector);
+    button.disabled = !this._form.checkValidity();
+    button.classList.toggle('popup__submit_inactive', !this._form.checkValidity());
+  }
+
+  _setEventListeners() {
+    const handleElement = document.querySelector(this._elementOpenPopupSelector);
+    handleElement.addEventListener('click', () => {
+      this._toggleButton();
+      this._getInputs().forEach((input) => {
+        this._showHideError(input);
+      });
+    })
+  }
+
+}
+
+const popupFormEdit = document.querySelector('.popup__form_type_edit');
+const classEditFormValidate = new FormValidate(configFormEdit, popupFormEdit);
+classEditFormValidate.enableValidation();
+
+const popupFormAdd = document.querySelector('.popup__form_type_add');
+const classAddFormValidate = new FormValidate(configFormAdd, popupFormAdd);
+classAddFormValidate.enableValidation();
+
+// const popupForms = document.querySelectorAll('.popup__form');
+// popupForms.forEach((popupForm) => {
+//   const classFormValidate = new FormValidate(configFormEdit, popupForm);
+//   classFormValidate.enableValidation();
+// })
