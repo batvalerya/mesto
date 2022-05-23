@@ -1,31 +1,5 @@
-import { popupCard, popupCardImg, popupCardTitle, popupCloseButtons, popupOverlays} from './index.js'; 
-
-export const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+import { popupCloseButtons, popupOverlays } from './utils.js'; 
+import { handleOpenPopup } from './index.js'; 
 
 export class Card {
     constructor(data, cardSelector ){
@@ -52,21 +26,18 @@ export class Card {
       return this._card
     }
 
+
     _handleOpenPopup() {
-      const cardImgAlt = this._name;
-      popupCardImg.src = this._link;
-      popupCardTitle.textContent = this._name;
-      popupCardImg.setAttribute('alt', cardImgAlt);
-      popupCard.classList.add('popup_is-opened');
+      handleOpenPopup(this._name, this._link)
     }
   
-    _handleClosePopup() {
-      // const cardImgAlt = '';
-      // popupCardImg.src = '';
-      // popupCardTitle.textContent = '';
-      // popupCardImg.setAttribute('alt', cardImgAlt);
-      popupCard.classList.remove('popup_is-opened');
-    }
+    // _handleClosePopup() {
+    //   // const cardImgAlt = '';
+    //   // popupCardImg.src = '';
+    //   // popupCardTitle.textContent = '';
+    //   // popupCardImg.setAttribute('alt', cardImgAlt);
+    //   popupCard.classList.remove('popup_is-opened');
+    // }
   
     _handleLikeButton() {
       const likeButton = this._card.querySelector('.like-button');
@@ -86,28 +57,28 @@ export class Card {
         this._handleDeleteButton();
       })
   
-      popupCloseButtons.forEach((popupCloseButton) => {
-        popupCloseButton.addEventListener('click', () => {
-          this._handleClosePopup();
-        })
-      })
+      // popupCloseButtons.forEach((popupCloseButton) => {
+      //   popupCloseButton.addEventListener('click', () => {
+      //     this._handleClosePopup();
+      //   })
+      // })
   
-      document.addEventListener('keydown', () => {
-        this._handleClosePopup();
-      })
+      // document.addEventListener('keydown', () => {
+      //   this._handleClosePopup();
+      // })
   
       this._card.querySelector('.like-button').addEventListener('click', () => {
         this._handleLikeButton();
       })
   
   
-      popupOverlays.forEach((popupOverlay) => {
-        popupOverlay.addEventListener('click', (event) => {
-          if (event.target === event.currentTarget) {
-            this._handleClosePopup();
-          }
-        })
-      })
+      // popupOverlays.forEach((popupOverlay) => {
+      //   popupOverlay.addEventListener('click', (event) => {
+      //     if (event.target === event.currentTarget) {
+      //       this._handleClosePopup();
+      //     }
+      //   })
+      // })
     }
   
 }

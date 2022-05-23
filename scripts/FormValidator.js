@@ -1,17 +1,3 @@
-export const configFormEdit ={
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    buttonSelector: '.popup__submit',
-    elementOpenPopupSelector: '.profile__edit-button'
-}
-
-export const configFormAdd ={
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  buttonSelector: '.popup__submit',
-  elementOpenPopupSelector: '.profile__add-button'
-}
-
 export class FormValidate {
   constructor(config, form) {
     this._elementOpenPopupSelector = config.elementOpenPopupSelector;

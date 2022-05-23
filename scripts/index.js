@@ -1,5 +1,9 @@
-import { Card, initialCards } from './Card.js';
-import { FormValidate, configFormEdit, configFormAdd } from './FormValidator.js';
+import { Card } from './Card.js';
+import { configFormEdit, configFormAdd, initialCards, popupOverlays, popupCardImg, popupCardTitle, popupCard } from './utils.js';
+import { FormValidate } from './FormValidator.js';
+
+
+
 
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
@@ -17,12 +21,7 @@ const linkInput = document.querySelector('.popup__input_type_link');
 const editForm = document.forms.aboutUser;
 const addCardForm = document.forms.addCard;
 
-export const popupCard = document.querySelector('.popup_card');
-export const cardImage = document.querySelector('.photo-gallery__image');
-export const popupCardImg = document.querySelector('.popup__card-img');
-export const popupCardTitle = document.querySelector('.popup__card-title');
-export const popupCloseButtons = document.querySelectorAll('.popup__close-button');
-export const popupOverlays = document.querySelectorAll('.popup');
+
 
 
 // СЛУШАТЕЛИ
@@ -141,3 +140,20 @@ classAddFormValidate.enableValidation();
 //   classFormValidate.enableValidation();
 // })
 
+
+
+export function handleOpenPopup (name,link) {
+  const cardImgAlt = name;
+  popupCardImg.src = link;
+  popupCardTitle.textContent = name;
+  popupCardImg.setAttribute('alt', cardImgAlt);
+  openPopup(popupCard);
+}
+
+// function handleClosePopup() {
+//   // const cardImgAlt = '';
+//   // popupCardImg.src = '';
+//   // popupCardTitle.textContent = '';
+//   // popupCardImg.setAttribute('alt', cardImgAlt);
+//   popupCard.classList.remove('popup_is-opened');
+// }
