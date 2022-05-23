@@ -6,6 +6,8 @@ export class Card {
       this._name = data.name;
       this._link = data.link;
       this._cardSelector = cardSelector;
+      this._card = this._getTemplate();
+      this._buttonLike = this._card.querySelector('.like-button');
     }
   
     _getTemplate() {
@@ -18,7 +20,7 @@ export class Card {
     }
   
     createCard(){
-      this._card = this._getTemplate();
+      // this._card = this._getTemplate();
       this._setEventListeners();
       this._card.querySelector('.photo-gallery__image').src = this._link;
       this._card.querySelector('.photo-gallery__image').setAttribute('alt', this._name);
@@ -40,8 +42,7 @@ export class Card {
     // }
   
     _handleLikeButton() {
-      const likeButton = this._card.querySelector('.like-button');
-      likeButton.classList.toggle('like-button_active');
+      this._buttonLike.classList.toggle('like-button_active');
     }
   
     _handleDeleteButton() {
@@ -67,7 +68,7 @@ export class Card {
       //   this._handleClosePopup();
       // })
   
-      this._card.querySelector('.like-button').addEventListener('click', () => {
+      this._buttonLike.addEventListener('click', () => {
         this._handleLikeButton();
       })
   
