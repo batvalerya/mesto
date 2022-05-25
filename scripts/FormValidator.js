@@ -1,6 +1,5 @@
 export class FormValidate {
   constructor(config, form) {
-    this._elementOpenPopupSelector = config.elementOpenPopupSelector;
     this._inputSelector = config.inputSelector;
     this._buttonSelector = config.buttonSelector;
     this._form = form;
@@ -15,13 +14,12 @@ export class FormValidate {
     this._getInputs().forEach((input) => {
       input.addEventListener('input', (event) => this._handleFormInput(event));
     })
-    this._setEventListeners();
   }
   
   _handleFormInput(event) {
     const popupInput = event.target;
     this._showHideError(popupInput);
-    this._toggleButton();
+    this.toggleButton();
   }
 
   _showHideError(field) {
@@ -35,22 +33,11 @@ export class FormValidate {
     }
   }
 
-  _toggleButton() {
+  toggleButton() {
     const button = this._form.querySelector(this._buttonSelector);
     button.disabled = !this._form.checkValidity();
     button.classList.toggle('popup__submit_inactive', !this._form.checkValidity());
   }
-
-  _setEventListeners() {
-    const handleElement = document.querySelector(this._elementOpenPopupSelector);
-    handleElement.addEventListener('click', () => {
-      this._toggleButton();
-      this._getInputs().forEach((input) => {
-        this._showHideError(input);
-      });
-    })
-  }
-
 }
 
 

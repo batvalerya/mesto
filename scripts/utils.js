@@ -25,18 +25,10 @@ export const initialCards = [
     }
 ];
 
-export const configFormEdit ={
+export const configForm ={
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     buttonSelector: '.popup__submit',
-    elementOpenPopupSelector: '.profile__edit-button'
-}
-
-export const configFormAdd ={
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  buttonSelector: '.popup__submit',
-  elementOpenPopupSelector: '.profile__add-button'
 }
 
 export const popupCard = document.querySelector('.popup_card');
@@ -45,3 +37,4 @@ export const popupCardImg = document.querySelector('.popup__card-img');
 export const popupCardTitle = document.querySelector('.popup__card-title');
 export const popupCloseButtons = document.querySelectorAll('.popup__close-button');
 export const popupOverlays = document.querySelectorAll('.popup');
+export const photoGalleryItems = document.querySelector('.photo-gallery__items')

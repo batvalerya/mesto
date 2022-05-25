@@ -1,4 +1,3 @@
-import { popupCloseButtons, popupOverlays } from './utils.js'; 
 import { handleOpenPopup } from './index.js'; 
 
 export class Card {
@@ -20,7 +19,6 @@ export class Card {
     }
   
     createCard(){
-      // this._card = this._getTemplate();
       this._setEventListeners();
       this._card.querySelector('.photo-gallery__image').src = this._link;
       this._card.querySelector('.photo-gallery__image').setAttribute('alt', this._name);
@@ -33,21 +31,17 @@ export class Card {
       handleOpenPopup(this._name, this._link)
     }
   
-    // _handleClosePopup() {
-    //   // const cardImgAlt = '';
-    //   // popupCardImg.src = '';
-    //   // popupCardTitle.textContent = '';
-    //   // popupCardImg.setAttribute('alt', cardImgAlt);
-    //   popupCard.classList.remove('popup_is-opened');
-    // }
   
     _handleLikeButton() {
       this._buttonLike.classList.toggle('like-button_active');
     }
   
+    
     _handleDeleteButton() {
+      //this._card= null; так у меня не сработало, если у вас есть матеиал, который можно почитать и разобраться, то прошу скинуть
       this._card.remove();
     }
+  
   
     _setEventListeners() {
       this._card.querySelector('.photo-gallery__image').addEventListener('click', () => {
@@ -58,28 +52,11 @@ export class Card {
         this._handleDeleteButton();
       })
   
-      // popupCloseButtons.forEach((popupCloseButton) => {
-      //   popupCloseButton.addEventListener('click', () => {
-      //     this._handleClosePopup();
-      //   })
-      // })
-  
-      // document.addEventListener('keydown', () => {
-      //   this._handleClosePopup();
-      // })
   
       this._buttonLike.addEventListener('click', () => {
         this._handleLikeButton();
       })
   
-  
-      // popupOverlays.forEach((popupOverlay) => {
-      //   popupOverlay.addEventListener('click', (event) => {
-      //     if (event.target === event.currentTarget) {
-      //       this._handleClosePopup();
-      //     }
-      //   })
-      // })
     }
   
 }

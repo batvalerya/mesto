@@ -1,5 +1,5 @@
 import { Card } from './Card.js';
-import { configFormEdit, configFormAdd, initialCards, popupOverlays, popupCardImg, popupCardTitle, popupCard } from './utils.js';
+import { configForm, initialCards, popupOverlays, popupCardImg, popupCardTitle, popupCard, photoGalleryItems } from './utils.js';
 import { FormValidate } from './FormValidator.js';
 
 
@@ -20,15 +20,16 @@ const newNameInput = document.querySelector('.popup__input_type_new-name');
 const linkInput = document.querySelector('.popup__input_type_link');
 const editForm = document.forms.aboutUser;
 const addCardForm = document.forms.addCard;
-
+const popupFormAdd = document.querySelector('.popup__form_type_add');
+const popupFormEdit = document.querySelector('.popup__form_type_edit');
 
 
 
 // СЛУШАТЕЛИ
 editButton.addEventListener('click',  openPopupEdit);
 addButton.addEventListener('click',  openPopupAdd);
-editForm.addEventListener('submit', handleEditFormSubmit); 
-addCardForm.addEventListener('submit', handleAddCardFormSubmit);
+ 
+
 
 
 
@@ -40,16 +41,14 @@ function openPopup(popup) {
   closeButtons.forEach(function(item) {
     item.addEventListener('click', closePopup);
   });
-  saveButton.addEventListener('click', closePopup);
-  createButton.addEventListener('click', closePopup);
-  editForm.addEventListener('submit', handleEditFormSubmit); 
-  addCardForm.addEventListener('submit', handleAddCardFormSubmit);
 }
 
 function closePopup() {
   const openedPopup = document.querySelector('.popup_is-opened');
   openedPopup.classList.remove('popup_is-opened');
   removeListenerEsc(document);
+
+  //если не удалять слушатели ниже, то в консоли появляется ошибка при двойном клике https://skr.sh/sE7aAlOUewk
   removeListenerOverlay(popupOverlays);
   closeButtons.forEach(function(item) {
     item.removeEventListener('click', closePopup);
@@ -61,12 +60,18 @@ function closePopup() {
 function openPopupEdit() {
     nameInput.value = authorName.textContent;
     professionInput.value = profession.textContent;
+    editForm.addEventListener('submit', handleEditFormSubmit);
+    saveButton.addEventListener('click', closePopup);
     openPopup(popupWindowEdit);
+    enableValidation(configForm,popupFormEdit);
 }
 
 function openPopupAdd() {
   addCardForm.reset();
+  addCardForm.addEventListener('submit', handleAddCardFormSubmit);
+  createButton.addEventListener('click', closePopup);
   openPopup(popupWindowAdd);
+  enableValidation(configForm,popupFormAdd);
 }
 
 function addListenerOverlay(popupOverlays){
@@ -107,40 +112,34 @@ function handleEditFormSubmit(evt) {
     profession.textContent = professionInput.value;
 }
 
+function createCard(dataCards, cardSelector) {
+  const cardClass = new Card(dataCards, cardSelector);
+  const card = cardClass.createCard();
+  return card;
+}
 
 function handleAddCardFormSubmit(evt) {
   evt.preventDefault(); 
   const name = newNameInput.value
   const link = linkInput.value
-  const newCardClass = new Card({name: name, link: link }, '.templateCard');
-  const newCard = newCardClass.createCard();
-  document.querySelector('.photo-gallery__items').prepend(newCard);
+  const newCard = createCard({name: name, link: link }, '.templateCard');
+  photoGalleryItems.prepend(newCard);
   addCardForm.removeEventListener('submit', handleAddCardFormSubmit);
 }
 
 
 
 initialCards.forEach((initialCard) => {
-  const cardClass = new Card(initialCard, '.templateCard');
-  const card = cardClass.createCard();
-  document.querySelector('.photo-gallery__items').append(card);
+  const card = createCard(initialCard, '.templateCard');
+  photoGalleryItems.append(card);
 })
 
-const popupFormEdit = document.querySelector('.popup__form_type_edit');
-const classEditFormValidate = new FormValidate(configFormEdit, popupFormEdit);
-classEditFormValidate.enableValidation();
 
-const popupFormAdd = document.querySelector('.popup__form_type_add');
-const classAddFormValidate = new FormValidate(configFormAdd, popupFormAdd);
-classAddFormValidate.enableValidation();
-
-// const popupForms = document.querySelectorAll('.popup__form');
-// popupForms.forEach((popupForm) => {
-//   const classFormValidate = new FormValidate(configFormEdit, popupForm);
-//   classFormValidate.enableValidation();
-// })
-
-
+function enableValidation(configForm,popupForm) {
+  const classFormValidate = new FormValidate(configForm, popupForm);
+  classFormValidate.enableValidation();
+  classFormValidate.toggleButton()
+}
 
 export function handleOpenPopup (name,link) {
   const cardImgAlt = name;
@@ -149,11 +148,3 @@ export function handleOpenPopup (name,link) {
   popupCardImg.setAttribute('alt', cardImgAlt);
   openPopup(popupCard);
 }
-
-// function handleClosePopup() {
-//   // const cardImgAlt = '';
-//   // popupCardImg.src = '';
-//   // popupCardTitle.textContent = '';
-//   // popupCardImg.setAttribute('alt', cardImgAlt);
-//   popupCard.classList.remove('popup_is-opened');
-// }
