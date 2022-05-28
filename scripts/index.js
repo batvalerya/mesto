@@ -22,12 +22,21 @@ const editForm = document.forms.aboutUser;
 const addCardForm = document.forms.addCard;
 const popupFormAdd = document.querySelector('.popup__form_type_add');
 const popupFormEdit = document.querySelector('.popup__form_type_edit');
+const classEditFormValidate = new FormValidate(configForm,popupFormEdit);
+const classAddFormValidate = new FormValidate(configForm,popupFormAdd);
 
 
 
 // СЛУШАТЕЛИ
 editButton.addEventListener('click',  openPopupEdit);
 addButton.addEventListener('click',  openPopupAdd);
+closeButtons.forEach(function(item) {
+  item.addEventListener('click', closePopup);
+});
+editForm.addEventListener('submit', handleEditFormSubmit);
+saveButton.addEventListener('click', closePopup);
+addCardForm.addEventListener('submit', handleAddCardFormSubmit);
+createButton.addEventListener('click', closePopup);
  
 
 
@@ -37,41 +46,25 @@ addButton.addEventListener('click',  openPopupAdd);
 function openPopup(popup) {
   popup.classList.add('popup_is-opened');
   addListenerEsc(document);
-  addListenerOverlay(popupOverlays);
-  closeButtons.forEach(function(item) {
-    item.addEventListener('click', closePopup);
-  });
 }
 
 function closePopup() {
   const openedPopup = document.querySelector('.popup_is-opened');
   openedPopup.classList.remove('popup_is-opened');
   removeListenerEsc(document);
-
-  //если не удалять слушатели ниже, то в консоли появляется ошибка при двойном клике https://skr.sh/sE7aAlOUewk
-  removeListenerOverlay(popupOverlays);
-  closeButtons.forEach(function(item) {
-    item.removeEventListener('click', closePopup);
-  });
-  saveButton.removeEventListener('click', closePopup);
-  createButton.removeEventListener('click', closePopup);
 }
 
 function openPopupEdit() {
     nameInput.value = authorName.textContent;
     professionInput.value = profession.textContent;
-    editForm.addEventListener('submit', handleEditFormSubmit);
-    saveButton.addEventListener('click', closePopup);
+    enableValidation(classEditFormValidate);
     openPopup(popupWindowEdit);
-    enableValidation(configForm,popupFormEdit);
 }
 
 function openPopupAdd() {
   addCardForm.reset();
-  addCardForm.addEventListener('submit', handleAddCardFormSubmit);
-  createButton.addEventListener('click', closePopup);
+  enableValidation(classAddFormValidate);
   openPopup(popupWindowAdd);
-  enableValidation(configForm,popupFormAdd);
 }
 
 function addListenerOverlay(popupOverlays){
@@ -80,11 +73,8 @@ function addListenerOverlay(popupOverlays){
   });
 }
 
-function removeListenerOverlay(popupOverlays){
-  popupOverlays.forEach(function(popupOverlay) {
-    popupOverlay.removeEventListener('click', closePopupOverlay);
-  });
-}
+addListenerOverlay(popupOverlays);
+
 
 function closePopupOverlay(event) {
   if (event.target === event.currentTarget) {
@@ -124,7 +114,6 @@ function handleAddCardFormSubmit(evt) {
   const link = linkInput.value
   const newCard = createCard({name: name, link: link }, '.templateCard');
   photoGalleryItems.prepend(newCard);
-  addCardForm.removeEventListener('submit', handleAddCardFormSubmit);
 }
 
 
@@ -135,10 +124,8 @@ initialCards.forEach((initialCard) => {
 })
 
 
-function enableValidation(configForm,popupForm) {
-  const classFormValidate = new FormValidate(configForm, popupForm);
+function enableValidation(classFormValidate) {
   classFormValidate.enableValidation();
-  classFormValidate.toggleButton()
 }
 
 export function handleOpenPopup (name,link) {

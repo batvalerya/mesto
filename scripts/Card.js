@@ -38,8 +38,8 @@ export class Card {
   
     
     _handleDeleteButton() {
-      //this._card= null; так у меня не сработало, если у вас есть матеиал, который можно почитать и разобраться, то прошу скинуть
       this._card.remove();
+      this._card = null;
     }
   
   
