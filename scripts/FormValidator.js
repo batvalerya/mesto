@@ -3,6 +3,8 @@ export class FormValidate {
     this._inputSelector = config.inputSelector;
     this._buttonSelector = config.buttonSelector;
     this._form = form;
+    this._inputs = this._getInputs();
+    this._button = this._form.querySelector(this._buttonSelector);
   }
 
   _getInputs() {
@@ -11,9 +13,8 @@ export class FormValidate {
   }
 
   enableValidation() {
-    this._getInputs().forEach((input) => {
+    this._inputs.forEach((input) => {
       input.addEventListener('input', (event) => this._handleFormInput(event));
-      this._hideError(input);
     })
   }
   
@@ -44,9 +45,16 @@ export class FormValidate {
   }
   
   _toggleButton() {
-    const button = this._form.querySelector(this._buttonSelector);
-    button.disabled = !this._form.checkValidity();
-    button.classList.toggle('popup__submit_inactive', !this._form.checkValidity());
+    // const button = this._form.querySelector(this._buttonSelector);
+    this._button.disabled = !this._form.checkValidity();
+    this._button.classList.toggle('popup__submit_inactive', !this._form.checkValidity());
+  }
+
+  checkValidityForm() {
+    this._inputs.forEach((input) => {
+      this._hideError(input);
+    })
+    this._toggleButton();
   }
 }
 

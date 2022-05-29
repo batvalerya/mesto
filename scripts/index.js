@@ -22,8 +22,10 @@ const editForm = document.forms.aboutUser;
 const addCardForm = document.forms.addCard;
 const popupFormAdd = document.querySelector('.popup__form_type_add');
 const popupFormEdit = document.querySelector('.popup__form_type_edit');
-const classEditFormValidate = new FormValidate(configForm,popupFormEdit);
-const classAddFormValidate = new FormValidate(configForm,popupFormAdd);
+const profileFormValidator = new FormValidate(configForm,popupFormEdit);
+profileFormValidator.enableValidation();
+const newCardFormValidator = new FormValidate(configForm,popupFormAdd);
+newCardFormValidator.enableValidation();
 
 
 
@@ -57,13 +59,13 @@ function closePopup() {
 function openPopupEdit() {
     nameInput.value = authorName.textContent;
     professionInput.value = profession.textContent;
-    enableValidation(classEditFormValidate);
+    profileFormValidator.checkValidityForm();
     openPopup(popupWindowEdit);
 }
 
 function openPopupAdd() {
   addCardForm.reset();
-  enableValidation(classAddFormValidate);
+  newCardFormValidator.checkValidityForm();
   openPopup(popupWindowAdd);
 }
 
@@ -123,10 +125,6 @@ initialCards.forEach((initialCard) => {
   photoGalleryItems.append(card);
 })
 
-
-function enableValidation(classFormValidate) {
-  classFormValidate.enableValidation();
-}
 
 export function handleOpenPopup (name,link) {
   const cardImgAlt = name;
