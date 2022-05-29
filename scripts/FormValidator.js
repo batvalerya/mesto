@@ -30,13 +30,13 @@ export class FormValidate {
   _hideError(field) {
     this._getErrorNode(field).textContent = '';
     field.classList.remove('popup__input_type_error');
-    this._toggleButton();
+    this._toggleButtonState();
   }
 
   _showError(field) {
     field.classList.add('popup__input_type_error');
     this._getErrorNode(field).textContent = field.validationMessage;
-    this._toggleButton();
+    this._toggleButtonState();
   }
 
   _getErrorNode(field) {
@@ -44,17 +44,15 @@ export class FormValidate {
     return errorNode
   }
   
-  _toggleButton() {
-    // const button = this._form.querySelector(this._buttonSelector);
+  _toggleButtonState() {
     this._button.disabled = !this._form.checkValidity();
     this._button.classList.toggle('popup__submit_inactive', !this._form.checkValidity());
   }
 
-  checkValidityForm() {
+  resetErrorsForm() {
     this._inputs.forEach((input) => {
       this._hideError(input);
     })
-    this._toggleButton();
   }
 }
 

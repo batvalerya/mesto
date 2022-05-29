@@ -22,8 +22,11 @@ const editForm = document.forms.aboutUser;
 const addCardForm = document.forms.addCard;
 const popupFormAdd = document.querySelector('.popup__form_type_add');
 const popupFormEdit = document.querySelector('.popup__form_type_edit');
+
+
 const profileFormValidator = new FormValidate(configForm,popupFormEdit);
 profileFormValidator.enableValidation();
+
 const newCardFormValidator = new FormValidate(configForm,popupFormAdd);
 newCardFormValidator.enableValidation();
 
@@ -59,13 +62,13 @@ function closePopup() {
 function openPopupEdit() {
     nameInput.value = authorName.textContent;
     professionInput.value = profession.textContent;
-    profileFormValidator.checkValidityForm();
+    profileFormValidator.resetErrorsForm();
     openPopup(popupWindowEdit);
 }
 
 function openPopupAdd() {
   addCardForm.reset();
-  newCardFormValidator.checkValidityForm();
+  newCardFormValidator.resetErrorsForm();
   openPopup(popupWindowAdd);
 }
 
