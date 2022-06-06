@@ -1,4 +1,4 @@
-import { handleOpenPopup } from './index.js'; 
+import { handleOpenPopup } from '../pages/index.js'; 
 
 export class Card {
     constructor(data, cardSelector ){

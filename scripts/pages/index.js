@@ -1,6 +1,7 @@
-import { Card } from './Card.js';
-import { configForm, initialCards, popupOverlays, popupCardImg, popupCardTitle, popupCard, photoGalleryItems } from './utils.js';
-import { FormValidate } from './FormValidator.js';
+import { Card } from '../components/Card.js';
+import { Section } from '../components/Section.js';
+import { configForm, initialCards, popupOverlays, popupCardImg, popupCardTitle, popupCard, photoGalleryItems } from '../utils/constants.js';
+import { FormValidate } from '../components/FormValidator.js';
 
 
 
@@ -122,13 +123,6 @@ function handleAddCardFormSubmit(evt) {
 }
 
 
-
-initialCards.forEach((initialCard) => {
-  const card = createCard(initialCard, '.templateCard');
-  photoGalleryItems.append(card);
-})
-
-
 export function handleOpenPopup (name,link) {
   const cardImgAlt = name;
   popupCardImg.src = link;
@@ -136,3 +130,19 @@ export function handleOpenPopup (name,link) {
   popupCardImg.setAttribute('alt', cardImgAlt);
   openPopup(popupCard);
 }
+
+// initialCards.forEach((initialCard) => {
+//   const card = createCard(initialCard, '.templateCard');
+//   photoGalleryItems.append(card);
+// })
+
+const newCard = new Section({
+    items: initialCards,
+    renderer: (cardItem) => {
+        const card = createCard(cardItem, '.templateCard');
+        newCard.addItem(card);
+    },
+ }, '.photo-gallery__items'
+); 
+
+newCard.renderItems();
