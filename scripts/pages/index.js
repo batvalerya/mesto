@@ -2,6 +2,7 @@ import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { configForm, initialCards, popupOverlays, popupCardImg, popupCardTitle, popupCard, photoGalleryItems } from '../utils/constants.js';
 import { FormValidate } from '../components/FormValidator.js';
+import { Popup } from '../components/Popup.js';
 
 
 
