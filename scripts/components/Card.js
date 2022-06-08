@@ -1,12 +1,11 @@
-import { handleOpenPopup } from '../pages/index.js'; 
-
 export class Card {
-    constructor(data, cardSelector ){
+    constructor(data, cardSelector, handleCardClick) {
       this._name = data.name;
       this._link = data.link;
       this._cardSelector = cardSelector;
       this._card = this._getTemplate();
       this._buttonLike = this._card.querySelector('.like-button');
+      this._handleCardClick = handleCardClick;
     }
   
     _getTemplate() {
@@ -25,11 +24,6 @@ export class Card {
       this._card.querySelector('.photo-gallery__title').textContent = this._name;
       return this._card
     }
-
-
-    _handleOpenPopup() {
-      handleOpenPopup(this._name, this._link)
-    }
   
   
     _handleLikeButton() {
@@ -45,7 +39,7 @@ export class Card {
   
     _setEventListeners() {
       this._card.querySelector('.photo-gallery__image').addEventListener('click', () => {
-        this._handleOpenPopup();
+        this._handleCardClick();
       })
   
       this._card.querySelector('.photo-gallery__delete-button').addEventListener('click', () => {
@@ -56,9 +50,14 @@ export class Card {
       this._buttonLike.addEventListener('click', () => {
         this._handleLikeButton();
       })
+
+
+      this._card.addEventListener('click', () => {
+        this._handleCardClick();
+      })
   
     }
-  
+
 }
 
  
