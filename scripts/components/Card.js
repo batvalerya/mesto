@@ -45,17 +45,10 @@ export class Card {
       this._card.querySelector('.photo-gallery__delete-button').addEventListener('click', () => {
         this._handleDeleteButton();
       })
-  
-  
       this._buttonLike.addEventListener('click', () => {
         this._handleLikeButton();
       })
 
-
-      this._card.addEventListener('click', () => {
-        this._handleCardClick();
-      })
-  
     }
 
 }

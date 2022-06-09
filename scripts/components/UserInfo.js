@@ -1,13 +1,11 @@
 export class UserInfo {
     constructor({authorNameSelector, aboutAuthorSelector}) {
-        this._authorName = document.querySelector('.author__name');
-        this._aboutAuthor =  document.querySelector('.author__profession');
+        this._authorName = document.querySelector(authorNameSelector);
+        this._aboutAuthor =  document.querySelector(aboutAuthorSelector);
     }
 
     getUserInfo() {
         const userInfo = {};
-        console.log(this._authorName)
-        console.log(this._authorName.textContent)
         userInfo.name = this._authorName.textContent;
         userInfo.about = this._aboutAuthor.textContent;
         
