@@ -1,6 +1,4 @@
-// import addButton  from '../../images/add-button.jpg'
 import '../../pages/index.css';
-
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { configForm, initialCards, photoGalleryItems } from '../utils/constants.js';
@@ -30,10 +28,38 @@ editFormValidator.enableValidation();
 const newCardFormValidator = new FormValidate(configForm,popupFormAdd);
 newCardFormValidator.enableValidation();
 
+const newCard = new Section({
+  items: initialCards,
+  renderer: (cardItem) => {
+      const card = createCard(cardItem, '.templateCard', handleCardClick);
+      newCard.addItem(card);
+  },
+}, '.photo-gallery__items'
+); 
+newCard.renderItems();
+
+const addForm = new PopupWithForm('.popup_add-card', handleAddFormSubmit);
+addForm.setEventListeners();
+addButton.addEventListener('click', () => {
+  addForm.open();
+  newCardFormValidator.resetErrorsForm();
+});
 
 
-// СЛУШАТЕЛИ
+//слушатели
+const editForm = new PopupWithForm('.popup_edit-profile', handleEditFormSubmit);
+editForm.setEventListeners();
+const userInfo = new UserInfo({authorNameSelector:'.author__name', aboutAuthorSelector:'.author__profession'});
 
+editButton.addEventListener('click', () => {
+  editForm.open();
+  nameInput.value = userInfo.getUserInfo()['name'];
+  professionInput.value = userInfo.getUserInfo()['about'];
+  editFormValidator.resetErrorsForm();
+});
+
+
+//функции
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
   authorName.textContent = editForm._getInputValues()['name'];
@@ -65,38 +91,9 @@ function handleCardClick() {
 
 
 
-const editForm = new PopupWithForm('.popup_edit-profile', handleEditFormSubmit);
-editForm.setEventListeners();
-const userInfo = new UserInfo({authorNameSelector:'.author__name', aboutAuthorSelector:'.author__profession'});
-
-editButton.addEventListener('click', () => {
-  editForm.open();
-  nameInput.value = userInfo.getUserInfo()['name'];
-  professionInput.value = userInfo.getUserInfo()['about'];
-  editFormValidator.resetErrorsForm();
-});
-
-
-const addForm = new PopupWithForm('.popup_add-card', handleAddFormSubmit);
-addForm.setEventListeners();
-addButton.addEventListener('click', () => {
-  addForm.open();
-  newCardFormValidator.resetErrorsForm();
-});
 
 
 
 
-
-const newCard = new Section({
-  items: initialCards,
-  renderer: (cardItem) => {
-      const card = createCard(cardItem, '.templateCard', handleCardClick);
-      newCard.addItem(card);
-  },
-}, '.photo-gallery__items'
-); 
-
-newCard.renderItems();
 
 
