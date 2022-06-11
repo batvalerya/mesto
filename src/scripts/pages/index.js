@@ -1,3 +1,6 @@
+// import addButton  from '../../images/add-button.jpg'
+import '../../pages/index.css';
+
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { configForm, initialCards, photoGalleryItems } from '../utils/constants.js';
