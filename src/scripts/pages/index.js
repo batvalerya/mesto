@@ -12,12 +12,8 @@ import { UserInfo } from '../components/UserInfo.js';
 
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
-const authorName = document.querySelector('.author__name');
-const profession = document.querySelector('.author__profession');
 const nameInput = document.querySelector('.popup__input_type_name');
 const professionInput = document.querySelector('.popup__input_type_description');
-const newNameInput = document.querySelector('.popup__input_type_new-name');
-const linkInput = document.querySelector('.popup__input_type_link');
 const popupFormAdd = document.querySelector('.popup__form_type_add');
 const popupFormEdit = document.querySelector('.popup__form_type_edit');
 
@@ -27,6 +23,14 @@ editFormValidator.enableValidation();
 
 const newCardFormValidator = new FormValidate(configForm,popupFormAdd);
 newCardFormValidator.enableValidation();
+
+const editForm = new PopupWithForm('.popup_edit-profile', handleEditFormSubmit);
+editForm.setEventListeners();
+
+const userInfo = new UserInfo({authorNameSelector:'.author__name', aboutAuthorSelector:'.author__profession'});
+
+const popupWithImage = new PopupWithImage('.popup_card');
+popupWithImage.setEventListeners();
 
 const newCard = new Section({
   items: initialCards,
@@ -40,16 +44,9 @@ newCard.renderItems();
 
 const addForm = new PopupWithForm('.popup_add-card', handleAddFormSubmit);
 addForm.setEventListeners();
-addButton.addEventListener('click', () => {
-  addForm.open();
-  newCardFormValidator.resetErrorsForm();
-});
 
 
-//слушатели
-const editForm = new PopupWithForm('.popup_edit-profile', handleEditFormSubmit);
-editForm.setEventListeners();
-const userInfo = new UserInfo({authorNameSelector:'.author__name', aboutAuthorSelector:'.author__profession'});
+//Cлушатели
 
 editButton.addEventListener('click', () => {
   editForm.open();
@@ -58,20 +55,26 @@ editButton.addEventListener('click', () => {
   editFormValidator.resetErrorsForm();
 });
 
+addButton.addEventListener('click', () => {
+  addForm.open();
+  newCardFormValidator.resetErrorsForm();
+});
+
 
 //функции
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  authorName.textContent = editForm._getInputValues()['name'];
-  profession.textContent = editForm._getInputValues()['description'];
+  userInfo.setUserInfo(editForm.getInputValues()['name'], editForm.getInputValues()['description'])
   editForm.close();
 }
 
 function handleAddFormSubmit(evt) {
   evt.preventDefault(); 
-  const name = newNameInput.value
-  const link = linkInput.value
-  const newCard = createCard({name: name, link: link }, '.templateCard', handleCardClick);
+  const inputValues = this.getInputValues();
+  const newCard = createCard({
+    name: inputValues['name'],
+    link: inputValues['link'] 
+  },'.templateCard',handleCardClick);
   photoGalleryItems.prepend(newCard);
   addForm.close();
 
@@ -84,10 +87,12 @@ function createCard(dataCards, cardSelector, handleCardClick) {
 }
 
 function handleCardClick() {
-  const popupWithImage = new PopupWithImage('.popup_card');
   popupWithImage.open(this._name, this._link);
-  popupWithImage.setEventListeners();
 }
+
+
+
+
 
 
 

@@ -7,10 +7,11 @@ export class PopupWithImage extends Popup {
     }
 
     open(name, link) {
+        super.open();
+        
         const cardImgAlt = name;
         this._popupCardImg.src = link;
         this._popupCardTitle.textContent = name;
         this._popupCardImg.setAttribute('alt', cardImgAlt);
-        this._popup.classList.add('popup_is-opened');
     }
 }

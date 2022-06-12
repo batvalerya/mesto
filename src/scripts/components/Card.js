@@ -18,10 +18,11 @@ export class Card {
     }
   
     createCard(){
-      this._setEventListeners();
-      this._card.querySelector('.photo-gallery__image').src = this._link;
-      this._card.querySelector('.photo-gallery__image').setAttribute('alt', this._name);
+      this._cardImage = this._card.querySelector('.photo-gallery__image');
+      this._cardImage.src = this._link;
+      this._cardImage.setAttribute('alt', this._name);
       this._card.querySelector('.photo-gallery__title').textContent = this._name;
+      this._setEventListeners();
       return this._card
     }
   
@@ -38,7 +39,7 @@ export class Card {
   
   
     _setEventListeners() {
-      this._card.querySelector('.photo-gallery__image').addEventListener('click', () => {
+      this._cardImage.addEventListener('click', () => {
         this._handleCardClick();
       })
   

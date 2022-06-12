@@ -13,6 +13,10 @@ export class FormValidate {
   }
 
   enableValidation() {
+    this._setEventListeners();
+  }
+
+  _setEventListeners() {
     this._inputs.forEach((input) => {
       input.addEventListener('input', (event) => this._handleFormInput(event));
     })
