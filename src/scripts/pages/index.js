@@ -90,7 +90,7 @@ function handleCardClick() {
   popupWithImage.open(this._name, this._link);
 }
 
-
+//проверка git vs code
 
 
 
