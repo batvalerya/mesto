@@ -6,6 +6,7 @@ import { FormValidate } from '../components/FormValidator.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js'; 
 import { UserInfo } from '../components/UserInfo.js';
+import { Api } from '../components/Api.js';
 
 
 
@@ -32,18 +33,39 @@ const userInfo = new UserInfo({authorNameSelector:'.author__name', aboutAuthorSe
 const popupWithImage = new PopupWithImage('.popup_card');
 popupWithImage.setEventListeners();
 
-const newCard = new Section({
-  items: initialCards,
-  renderer: (cardItem) => {
-      const card = createCard(cardItem, '.templateCard', handleCardClick);
-      newCard.addItem(card);
-  },
-}, '.photo-gallery__items'
-); 
-newCard.renderItems();
+// const newCard = new Section({
+//   items: initialCards,
+//   renderer: (cardItem) => {
+//       const card = createCard(cardItem, '.templateCard', handleCardClick);
+//       newCard.addItem(card);
+//   },
+// }, '.photo-gallery__items'
+// ); 
+// newCard.renderItems();
 
 const addForm = new PopupWithForm('.popup_add-card', handleAddFormSubmit);
 addForm.setEventListeners();
+
+const api = new Api();
+api.getInitialCards()
+  .then((result) => {
+    const newCard = new Section({
+      items: result,
+      renderer: (cardItem) => {
+          const card = createCard(cardItem, '.templateCard', handleCardClick);
+          newCard.addItem(card);
+      },
+    }, '.photo-gallery__items'
+    ); 
+    newCard.renderItems();
+})
+  .catch((err) => {
+    console.log(err);
+})
+
+// api.getUserInfo() {
+
+// }
 
 
 //Cлушатели
@@ -67,6 +89,7 @@ function handleEditFormSubmit(evt) {
   userInfo.setUserInfo(editForm.getInputValues()['name'], editForm.getInputValues()['description'])
   editForm.close();
 }
+
 
 function handleAddFormSubmit(evt) {
   evt.preventDefault(); 
