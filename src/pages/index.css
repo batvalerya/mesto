@@ -19,6 +19,8 @@
 @import url(../blocks/photo-gallery/__image/photo-gallery__image.css);
 @import url(../blocks/photo-gallery/__caption/photo-gallery__caption.css);
 @import url(../blocks/photo-gallery/__title/photo-gallery__title.css);
+@import url(../blocks/photo-gallery/__counter/photo-gallery__counter.css);
+@import url(../blocks/photo-gallery/__counter-number/photo-gallery__counter-number.css);
 @import url(../blocks/like-button/like-button.css);
 @import url(../blocks/like-button/_active/like-button_active.css);
 @import url(../blocks/footer/footer.css);
