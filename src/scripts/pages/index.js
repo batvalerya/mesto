@@ -33,20 +33,23 @@ const userInfo = new UserInfo({authorNameSelector:'.author__name', aboutAuthorSe
 const popupWithImage = new PopupWithImage('.popup_card');
 popupWithImage.setEventListeners();
 
-// const newCard = new Section({
-//   items: initialCards,
-//   renderer: (cardItem) => {
-//       const card = createCard(cardItem, '.templateCard', handleCardClick);
-//       newCard.addItem(card);
-//   },
-// }, '.photo-gallery__items'
-// ); 
-// newCard.renderItems();
-
 const addForm = new PopupWithForm('.popup_add-card', handleAddFormSubmit);
 addForm.setEventListeners();
 
-const api = new Api();
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-43',
+  headers: {
+    authorization: '1dbd9da5-77e9-4a35-93ab-318f7b7209f2',
+    'Content-Type': 'application/json'
+  }
+});
+
+api.getUserInfo()
+  .then((result) => {
+    userInfo.setUserInfo(result['name'], result['about'])
+  })
+
+
 api.getInitialCards()
   .then((result) => {
     const newCard = new Section({
@@ -62,11 +65,6 @@ api.getInitialCards()
   .catch((err) => {
     console.log(err);
 })
-
-// api.getUserInfo() {
-
-// }
-
 
 //Cлушатели
 
@@ -86,7 +84,12 @@ addButton.addEventListener('click', () => {
 //функции
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  userInfo.setUserInfo(editForm.getInputValues()['name'], editForm.getInputValues()['description'])
+  const name = editForm.getInputValues()['name'];
+  const about = editForm.getInputValues()['description'];
+  api.updateUserInfo({name, about})
+    .then((userData) => {
+      userInfo.setUserInfo(userData['name'], userData['about'])
+    }) 
   editForm.close();
 }
 
@@ -94,11 +97,18 @@ function handleEditFormSubmit(evt) {
 function handleAddFormSubmit(evt) {
   evt.preventDefault(); 
   const inputValues = this.getInputValues();
-  const newCard = createCard({
+  api.addNewCard({
     name: inputValues['name'],
-    link: inputValues['link'] 
-  },'.templateCard',handleCardClick);
-  photoGalleryItems.prepend(newCard);
+    link: inputValues['link']
+  })
+    .then((newCardData) => {
+      const newCard = createCard({
+        name: newCardData['name'],
+        link: newCardData['link'] 
+      },'.templateCard',handleCardClick);
+      photoGalleryItems.prepend(newCard);
+    }) 
+  
   addForm.close();
 
 }
@@ -113,7 +123,6 @@ function handleCardClick() {
   popupWithImage.open(this._name, this._link);
 }
 
-//проверка git vs code
 
 
 

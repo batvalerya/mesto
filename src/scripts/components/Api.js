@@ -1,97 +1,55 @@
 export class Api {
-    constructor(options) {
-      // тело конструктора
+    constructor({baseUrl, headers}) {
+      this._baseUrl = baseUrl;
+      this._headers = headers;
+    }
+
+    _handleServerResponse(res) {
+      if (res.ok) {
+        return res.json();
+      } else {
+          return Promise.reject(`Ошибка: ${res.status}`);
+      }
+    }
+
+    _request(path) {
+      return fetch(`${this._baseUrl}${path}`, {
+            headers: this._headers,
+        })
+        .then(this._handleServerResponse);
     }
 
     getUserInfo() {
-        return fetch('https://mesto.nomoreparties.co/v1/cohort-43/users/me', {
-            headers: {
-                authorization: '1dbd9da5-77e9-4a35-93ab-318f7b7209f2'
-            }
-        })
-        .then(res => {
-            if (res.ok) {
-              return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        })
+        return this._request('/users/me');
     }
-
 
 
     getInitialCards() {
-        return fetch('https://mesto.nomoreparties.co/v1/cohort-43/cards', {
-          headers: {
-            authorization: '1dbd9da5-77e9-4a35-93ab-318f7b7209f2'
-          }
+        return this._request('/cards');
+    }
+
+    updateUserInfo({name, about}) {
+      return fetch(`${this._baseUrl}/users/me`, {
+        method: 'PATCH',
+        headers: this._headers,
+        body: JSON.stringify({
+            name,
+            about,
+          })
+      })
+      .then(this._handleServerResponse)
+    }
+
+    addNewCard({name, link}) {
+      return fetch(`${this._baseUrl}/cards`, {
+        method: 'POST',
+        headers: this._headers,
+        body: JSON.stringify({
+          name,
+          link,
         })
-          
-
-        handleServerResponse() {
-            then(res => {
-                if (res.ok) {
-                  return res.json();
-                } else {
-                    return Promise.reject(`Ошибка: ${res.status}`);
-                }
-            })
-        }
+      })
+      .then(this._handleServerResponse)
     }
-
-
+}
   
- 
-
-
-  
-
-
-    // другие методы работы с API
-  }
-  
-  const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-43',
-    headers: {
-      authorization: '1dbd9da5-77e9-4a35-93ab-318f7b7209f2',
-      'Content-Type': 'application/json'
-    }
-}); 
-
-
-
-
-// fetch('https://mesto.nomoreparties.co/v1/cohort-43/users/me', {
-//   headers: {
-//     authorization: '1dbd9da5-77e9-4a35-93ab-318f7b7209f2'
-//   }
-// })
-//   .then(res => res.json())
-//   .then((result) => {
-//     userInfo.setUserInfo(result['name'], result['about'])
-// });
-
-//   .then(res => res.json())
-//   .then((result) => {
-//     const newCard = new Section({
-//       items: result,
-//       renderer: (cardItem) => {
-//           const card = createCard(cardItem, '.templateCard', handleCardClick);
-//           newCard.addItem(card);
-//       },
-//     }, '.photo-gallery__items'); 
-//     newCard.renderItems();
-// })
-
-
-// fetch('https://mesto.nomoreparties.co/v1/cohort-43/users/me', {
-//     method: 'PATCH',
-//     headers: {
-//         authorization: '1dbd9da5-77e9-4a35-93ab-318f7b7209f2',
-//         'Content-Type': 'application/json'
-//       },
-//     body: JSON.stringify({
-//         name: name,
-//         about: about
-//       })
-// })
