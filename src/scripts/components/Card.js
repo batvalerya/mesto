@@ -22,6 +22,11 @@ export class Card {
       this._cardImage.src = this._link;
       this._cardImage.setAttribute('alt', this._name);
       this._card.querySelector('.photo-gallery__title').textContent = this._name;
+
+      // if (cardOwnerId !== userId) {
+      //   this._card.querySelector('.photo-gallery__delete-button').remove();
+      // }
+
       this._setEventListeners();
       return this._card
     }

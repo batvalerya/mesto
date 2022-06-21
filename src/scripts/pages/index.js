@@ -7,6 +7,7 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js'; 
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
+import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
 
 
@@ -35,6 +36,11 @@ popupWithImage.setEventListeners();
 
 const addForm = new PopupWithForm('.popup_add-card', handleAddFormSubmit);
 addForm.setEventListeners();
+
+const popupConfirm = new PopupWithConfirmation('.popup_confirm', handleConfirmFormSubmit);
+popupConfirm.setEventListeners();
+
+
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-43',
@@ -65,6 +71,8 @@ api.getInitialCards()
   .catch((err) => {
     console.log(err);
 })
+
+
 
 //Cлушатели
 
@@ -110,7 +118,10 @@ function handleAddFormSubmit(evt) {
     }) 
   
   addForm.close();
+}
 
+function handleConfirmFormSubmit(evt) {
+  evt.preventDefault();
 }
 
 function createCard(dataCards, cardSelector, handleCardClick) {
