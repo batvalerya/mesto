@@ -1,11 +1,11 @@
 export class Card {
-    constructor(data, cardSelector, handleCardClick) {
-      this._name = data.name;
-      this._link = data.link;
+    constructor(data, cardSelector, handleCardClick, handleDeleteButton) {
+      this._data = data;
       this._cardSelector = cardSelector;
       this._card = this._getTemplate();
       this._buttonLike = this._card.querySelector('.like-button');
       this._handleCardClick = handleCardClick;
+      this._handleDeleteButton = handleDeleteButton;
     }
   
     _getTemplate() {
@@ -19,14 +19,9 @@ export class Card {
   
     createCard(){
       this._cardImage = this._card.querySelector('.photo-gallery__image');
-      this._cardImage.src = this._link;
-      this._cardImage.setAttribute('alt', this._name);
-      this._card.querySelector('.photo-gallery__title').textContent = this._name;
-
-      // if (cardOwnerId !== userId) {
-      //   this._card.querySelector('.photo-gallery__delete-button').remove();
-      // }
-
+      this._cardImage.src = this._data.link;
+      this._cardImage.setAttribute('alt', this._data.name);
+      this._card.querySelector('.photo-gallery__title').textContent = this._data.name;
       this._setEventListeners();
       return this._card
     }
@@ -37,15 +32,15 @@ export class Card {
     }
   
     
-    _handleDeleteButton() {
-      this._card.remove();
-      this._card = null;
-    }
+    // _handleDeleteButton() {
+    //   this._card.remove();
+    //   this._card = null;
+    // }
   
   
     _setEventListeners() {
       this._cardImage.addEventListener('click', () => {
-        this._handleCardClick();
+        this._handleCardClick(this._data.name, this._data.link);
       })
   
       this._card.querySelector('.photo-gallery__delete-button').addEventListener('click', () => {
@@ -57,9 +52,13 @@ export class Card {
 
     }
 
+    removeDeleteButton() {
+      this._card.querySelector('.photo-gallery__delete-button').remove();
+    }
+
+    getOwnerId() {
+      return this._data['owner']['_id']
+    }
+
 }
 
- 
-  
-
-  

@@ -8,6 +8,7 @@ export class Section {
 
     renderItems() {
         this._initialArray.forEach((item) => {
+            // console.log(item['_id'])
             this._renderer(item);
           })
     }

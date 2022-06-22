@@ -52,25 +52,31 @@ const api = new Api({
 
 api.getUserInfo()
   .then((result) => {
-    userInfo.setUserInfo(result['name'], result['about'])
+    userInfo.setUserInfo(result['name'], result['about']);
+    userInfo.setUserId(result['_id'])
   })
+  .then(() => {
+    api.getInitialCards()
+      .then((result) => {
+        const newCard = new Section({
+          items: result,
+          renderer: (cardItem) => {
+              const card =  new Card(cardItem, '.templateCard', handleCardClick, 
+              handleDeleteButtonClick);
 
+              newCard.addItem(card.createCard());
 
-api.getInitialCards()
-  .then((result) => {
-    const newCard = new Section({
-      items: result,
-      renderer: (cardItem) => {
-          const card = createCard(cardItem, '.templateCard', handleCardClick);
-          newCard.addItem(card);
-      },
-    }, '.photo-gallery__items'
-    ); 
-    newCard.renderItems();
-})
-  .catch((err) => {
-    console.log(err);
-})
+              if(userInfo.getUserId() !== card.getOwnerId()) {
+                card.removeDeleteButton();
+              }
+          },
+        }, '.photo-gallery__items'); 
+        newCard.renderItems();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  })
 
 
 
@@ -110,12 +116,12 @@ function handleAddFormSubmit(evt) {
     link: inputValues['link']
   })
     .then((newCardData) => {
-      const newCard = createCard({
+      const newCard = new Card({
         name: newCardData['name'],
         link: newCardData['link'] 
-      },'.templateCard',handleCardClick);
-      photoGalleryItems.prepend(newCard);
-    }) 
+      },'.templateCard',handleCardClick, handleDeleteButtonClick);
+      photoGalleryItems.prepend(newCard.createCard());
+    })
   
   addForm.close();
 }
@@ -124,14 +130,18 @@ function handleConfirmFormSubmit(evt) {
   evt.preventDefault();
 }
 
-function createCard(dataCards, cardSelector, handleCardClick) {
-  const cardClass = new Card(dataCards, cardSelector, handleCardClick );
-  const card = cardClass.createCard();
-  return card;
+// function createCard(dataCards, cardSelector, handleCardClick, handleDeleteButton) {
+//   const cardClass = new Card(dataCards, cardSelector, handleCardClick, handleDeleteButton);
+//   const card = cardClass.createCard();
+//   return card;
+// }
+
+function handleCardClick(name, link) {
+  popupWithImage.open(name, link);
 }
 
-function handleCardClick() {
-  popupWithImage.open(this._name, this._link);
+function handleDeleteButtonClick() {
+  popupConfirm.open();
 }
 
 
