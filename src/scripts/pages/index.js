@@ -40,6 +40,10 @@ addForm.setEventListeners();
 const popupConfirm = new PopupWithConfirmation('.popup_confirm', handleConfirmFormSubmit);
 popupConfirm.setEventListeners();
 
+const popupConfirmDeleteButton = popupConfirm.getPopupConfirmationDeleteButton();
+// popupConfirmDeleteButton.addEventListener('click', (() => {
+  
+// }))
 
 
 const api = new Api({
@@ -62,7 +66,7 @@ api.getUserInfo()
           items: result,
           renderer: (cardItem) => {
               const card =  new Card(cardItem, '.templateCard', handleCardClick, 
-              handleDeleteButtonClick);
+              openPopupConfirmDelete);
 
               newCard.addItem(card.createCard());
 
@@ -119,15 +123,18 @@ function handleAddFormSubmit(evt) {
       const newCard = new Card({
         name: newCardData['name'],
         link: newCardData['link'] 
-      },'.templateCard',handleCardClick, handleDeleteButtonClick);
+      },'.templateCard',handleCardClick, openPopupConfirmDelete);
       photoGalleryItems.prepend(newCard.createCard());
     })
   
   addForm.close();
 }
 
-function handleConfirmFormSubmit(evt) {
+function handleConfirmFormSubmit(evt, card) {
   evt.preventDefault();
+  card.handleDeleteButton();
+  popupConfirm.close();
+  api.removeCard(card.getCardId())
 }
 
 // function createCard(dataCards, cardSelector, handleCardClick, handleDeleteButton) {
@@ -140,8 +147,9 @@ function handleCardClick(name, link) {
   popupWithImage.open(name, link);
 }
 
-function handleDeleteButtonClick() {
+function openPopupConfirmDelete(card) {
   popupConfirm.open();
+  popupConfirm.setDataCard(card);
 }
 
 

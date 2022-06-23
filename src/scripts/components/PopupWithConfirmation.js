@@ -5,13 +5,22 @@ export class PopupWithConfirmation extends Popup {
         super(popupSelector);
         this._handleFormSubmit = handleFormSubmit;
         this._form = this._popup.querySelector('.popup__form');
+        this._card = null;
     }
 
     setEventListeners() {
         super.setEventListeners();
-
+        console.log(this._form);
         this._form.addEventListener('submit', (event) => {
-            this._handleFormSubmit(event);
+            this._handleFormSubmit(event, this._card);
         })
+    }
+
+    getPopupConfirmationDeleteButton() {
+        return this._popup.querySelector('.popup__confirm-button')
+    }
+
+    setDataCard(card) {
+        this._card = card;
     }
 }
