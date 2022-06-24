@@ -18,6 +18,8 @@ const nameInput = document.querySelector('.popup__input_type_name');
 const professionInput = document.querySelector('.popup__input_type_description');
 const popupFormAdd = document.querySelector('.popup__form_type_add');
 const popupFormEdit = document.querySelector('.popup__form_type_edit');
+const editAvatarButton = document.querySelector('.profile__avatar');
+const editAvatarForm = document.querySelector('.popup__form_type_avatar');
 
 
 const editFormValidator = new FormValidate(configForm,popupFormEdit);
@@ -40,10 +42,12 @@ addForm.setEventListeners();
 const popupConfirm = new PopupWithConfirmation('.popup_confirm', handleConfirmFormSubmit);
 popupConfirm.setEventListeners();
 
-const popupConfirmDeleteButton = popupConfirm.getPopupConfirmationDeleteButton();
-// popupConfirmDeleteButton.addEventListener('click', (() => {
-  
-// }))
+const popupEditAvatar = new PopupWithForm('.popup_edit-avatar', handleEditAvatarFormSubmit);
+popupEditAvatar.setEventListeners();
+
+const editAvatarFormValidator = new FormValidate(configForm,editAvatarForm);
+editAvatarFormValidator.enableValidation();
+
 
 
 const api = new Api({
@@ -91,9 +95,6 @@ api.getUserInfo()
       })
 })
 
-// const avatar = document.querySelector('.profile__avatar')
-// console.log(getComputedStyle(avatar)['background'])
-
 
 
 //Cлушатели
@@ -109,6 +110,11 @@ addButton.addEventListener('click', () => {
   addForm.open();
   newCardFormValidator.resetErrorsForm();
 });
+
+editAvatarButton.addEventListener('click', () => {
+  popupEditAvatar.open();
+  editAvatarFormValidator.resetErrorsForm();
+})
 
 
 //функции
@@ -132,14 +138,22 @@ function handleAddFormSubmit(evt) {
     link: inputValues['link']
   })
     .then((newCardData) => {
-      const newCard = new Card({
-        name: newCardData['name'],
-        link: newCardData['link'] 
-      },'.templateCard',handleCardClick, openPopupConfirmDelete,  putLike);
+      const newCard = new Card(newCardData,'.templateCard',handleCardClick, openPopupConfirmDelete,  putLike, removeLike);
       photoGalleryItems.prepend(newCard.createCard());
+      newCard.likes();
     })
   
   addForm.close();
+}
+
+function handleEditAvatarFormSubmit(evt) {
+  evt.preventDefault(); 
+  const avatar = popupEditAvatar.getInputValues()['link'];
+  api.editProfileAvatar(avatar)
+    .then((userData) => {
+      userInfo.setUserInfo(userData['name'], userData['about'], userData['avatar'])
+    })
+    popupEditAvatar.close();
 }
 
 function handleConfirmFormSubmit(evt, card) {
@@ -164,7 +178,7 @@ function openPopupConfirmDelete(card) {
   popupConfirm.setDataCard(card);
 }
 
-//получила id card и отправила запрос 
+
 function putLike(card) {
   api
     .addLike(card.getCardId())

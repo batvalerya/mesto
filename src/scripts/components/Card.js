@@ -83,15 +83,20 @@ export class Card {
     }
 
     getCardId() {
+      console.log(this._data)
       return this._data['_id'];
     }
 
     getArrayLikes() {
-      return this._data.likes
+      return this._data['likes']
     }
 
     getLikes() {
-      return this._data.likes.length;
+      return this._data['likes']['length'];
+    }
+
+    likes() {
+      this._counterLike.textContent = '0';
     }
 
 }
