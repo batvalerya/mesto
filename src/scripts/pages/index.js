@@ -66,13 +66,22 @@ api.getUserInfo()
           items: result,
           renderer: (cardItem) => {
               const card =  new Card(cardItem, '.templateCard', handleCardClick, 
-              openPopupConfirmDelete);
+              openPopupConfirmDelete, putLike, removeLike);
 
               newCard.addItem(card.createCard());
 
               if(userInfo.getUserId() !== card.getOwnerId()) {
                 card.removeDeleteButton();
               }
+
+              card.counterLike(card.getLikes());
+
+              card.getArrayLikes().forEach((item) => {
+                if (item['_id'] === userInfo.getUserId()) {
+                  card.handleLikeButton();
+                }
+              }) 
+
           },
         }, '.photo-gallery__items'); 
         newCard.renderItems();
@@ -126,7 +135,7 @@ function handleAddFormSubmit(evt) {
       const newCard = new Card({
         name: newCardData['name'],
         link: newCardData['link'] 
-      },'.templateCard',handleCardClick, openPopupConfirmDelete);
+      },'.templateCard',handleCardClick, openPopupConfirmDelete,  putLike);
       photoGalleryItems.prepend(newCard.createCard());
     })
   
@@ -153,6 +162,17 @@ function handleCardClick(name, link) {
 function openPopupConfirmDelete(card) {
   popupConfirm.open();
   popupConfirm.setDataCard(card);
+}
+
+//получила id card и отправила запрос 
+function putLike(card) {
+  api
+    .addLike(card.getCardId())
+}
+
+function removeLike(card) {
+  api
+  .removeLike(card.getCardId());
 }
 
 

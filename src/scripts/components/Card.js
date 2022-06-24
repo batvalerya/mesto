@@ -1,11 +1,14 @@
 export class Card {
-    constructor(data, cardSelector, handleCardClick, handleTrashButton) {
+    constructor(data, cardSelector, handleCardClick, handleTrashButton, putLike, removeLike) {
       this._data = data;
       this._cardSelector = cardSelector;
       this._card = this._getTemplate();
       this._buttonLike = this._card.querySelector('.like-button');
+      this._counterLike = this._card.querySelector('.photo-gallery__counter-number')
       this._handleCardClick = handleCardClick;
       this._handleTrashButton = handleTrashButton;
+      this._putLike = putLike;
+      this._removeLike = removeLike;
     }
   
     _getTemplate() {
@@ -27,8 +30,12 @@ export class Card {
     }
   
   
-    _handleLikeButton() {
+    handleLikeButton() {
       this._buttonLike.classList.toggle('like-button_active');
+    }
+
+    counterLike(likes) {
+      this._counterLike.textContent = likes;
     }
   
     
@@ -36,6 +43,8 @@ export class Card {
       this._card.remove();
       this._card = null;
     }
+
+
   
   
     _setEventListeners() {
@@ -46,8 +55,21 @@ export class Card {
       this._card.querySelector('.photo-gallery__delete-button').addEventListener('click', () => {
         this._handleTrashButton(this);
       })
+
       this._buttonLike.addEventListener('click', () => {
-        this._handleLikeButton();
+        this.handleLikeButton();
+
+        if (this._buttonLike.classList.contains('like-button_active')){
+          this._putLike(this);
+          this._data.likes.push(this);
+          this._counterLike.textContent = this._data.likes.length;
+          
+        } else {
+          this._removeLike(this);
+          this._data.likes.pop(this);
+          this._counterLike.textContent = this._data.likes.length;
+        }
+  
       })
 
     }
@@ -62,6 +84,14 @@ export class Card {
 
     getCardId() {
       return this._data['_id'];
+    }
+
+    getArrayLikes() {
+      return this._data.likes
+    }
+
+    getLikes() {
+      return this._data.likes.length;
     }
 
 }

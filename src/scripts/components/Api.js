@@ -59,9 +59,14 @@ export class Api {
         headers: this._headers,
       })
       .then(this._handleServerResponse)
-      .then((res) => {
-        console.log(res)
+    }
+
+    removeLike(cardId) {
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+        method: 'DELETE',
+        headers: this._headers,
       })
+      .then(this._handleServerResponse)
     }
 
     removeCard(cardId) {
