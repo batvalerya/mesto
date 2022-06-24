@@ -29,7 +29,7 @@ newCardFormValidator.enableValidation();
 const editForm = new PopupWithForm('.popup_edit-profile', handleEditFormSubmit);
 editForm.setEventListeners();
 
-const userInfo = new UserInfo({authorNameSelector:'.author__name', aboutAuthorSelector:'.author__profession'});
+const userInfo = new UserInfo({authorNameSelector:'.author__name', aboutAuthorSelector:'.author__profession',avatarAuthorSelector:'.profile__avatar' });
 
 const popupWithImage = new PopupWithImage('.popup_card');
 popupWithImage.setEventListeners();
@@ -56,7 +56,7 @@ const api = new Api({
 
 api.getUserInfo()
   .then((result) => {
-    userInfo.setUserInfo(result['name'], result['about']);
+    userInfo.setUserInfo(result['name'], result['about'], result['avatar']);
     userInfo.setUserId(result['_id'])
   })
   .then(() => {
@@ -80,7 +80,10 @@ api.getUserInfo()
       .catch((err) => {
         console.log(err);
       })
-  })
+})
+
+// const avatar = document.querySelector('.profile__avatar')
+// console.log(getComputedStyle(avatar)['background'])
 
 
 
@@ -104,9 +107,9 @@ function handleEditFormSubmit(evt) {
   evt.preventDefault();
   const name = editForm.getInputValues()['name'];
   const about = editForm.getInputValues()['description'];
-  api.updateUserInfo({name, about})
+  api.updateUserInfo({name, about, avatar})
     .then((userData) => {
-      userInfo.setUserInfo(userData['name'], userData['about'])
+      userInfo.setUserInfo(userData['name'], userData['about'], userData['avatar'])
     }) 
   editForm.close();
 }

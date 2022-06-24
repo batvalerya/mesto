@@ -1,7 +1,8 @@
 export class UserInfo {
-    constructor({authorNameSelector, aboutAuthorSelector}) {
+    constructor({authorNameSelector, aboutAuthorSelector, avatarAuthorSelector}) {
         this._authorName = document.querySelector(authorNameSelector);
         this._aboutAuthor =  document.querySelector(aboutAuthorSelector);
+        this._authorAvatar = document.querySelector(avatarAuthorSelector);
         this._userId = null;
     }
 
@@ -9,13 +10,13 @@ export class UserInfo {
         const userInfo = {};
         userInfo.name = this._authorName.textContent;
         userInfo.about = this._aboutAuthor.textContent;
-        
         return userInfo
     }
 
-    setUserInfo(newName, newProfession) {
+    setUserInfo(newName, newProfession, avatar) {
         this._authorName.textContent = newName;
         this._aboutAuthor.textContent = newProfession;
+        this._authorAvatar.style.backgroundImage = `url(${avatar})`
     }
 
     setUserId(userId) {

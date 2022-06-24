@@ -28,13 +28,14 @@ export class Api {
         return this._request('/cards');
     }
 
-    updateUserInfo({name, about}) {
+    updateUserInfo({name, about, avatar}) {
       return fetch(`${this._baseUrl}/users/me`, {
         method: 'PATCH',
         headers: this._headers,
         body: JSON.stringify({
             name,
             about,
+            avatar,
           })
       })
       .then(this._handleServerResponse)
@@ -67,6 +68,17 @@ export class Api {
       return fetch(`${this._baseUrl}/cards/${cardId}`, {
         method: 'DELETE',
         headers: this._headers,
+      })
+      .then(this._handleServerResponse)
+    }
+
+    editProfileAvatar(avatar) {
+      return fetch(`${this._baseUrl}/users/me/avatar`, {
+        method: 'PATCH',
+        headers: this._headers,
+        body: JSON.stringify({
+            avatar,
+          })
       })
       .then(this._handleServerResponse)
     }
