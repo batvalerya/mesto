@@ -13,9 +13,12 @@ export class UserInfo {
         return userInfo
     }
 
-    setUserInfo(newName, newProfession, avatar) {
+    setUserInfo(newName, newProfession) {
         this._authorName.textContent = newName;
         this._aboutAuthor.textContent = newProfession;
+    }
+
+    setUserAvatar(avatar) {
         this._authorAvatar.style.backgroundImage = `url(${avatar})`
     }
 

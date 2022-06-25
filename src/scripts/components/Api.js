@@ -28,14 +28,13 @@ export class Api {
         return this._request('/cards');
     }
 
-    updateUserInfo({name, about, avatar}) {
+    updateUserInfo({name, about}) {
       return fetch(`${this._baseUrl}/users/me`, {
         method: 'PATCH',
         headers: this._headers,
         body: JSON.stringify({
             name,
             about,
-            avatar,
           })
       })
       .then(this._handleServerResponse)

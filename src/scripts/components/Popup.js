@@ -15,6 +15,14 @@ export class Popup {
         document.removeEventListener('keydown', this._handleEscClose);
     }
 
+    renderLoading(isLoading) {
+        if(isLoading) {
+            this._submit.textContent = 'Сохранение...';
+        } else (
+            this._submit.textContent = this._submitInitialText
+        )
+      }
+
 
     _handleEscClose(event) {
         if (event.key === 'Escape') {

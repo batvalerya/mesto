@@ -60,8 +60,9 @@ const api = new Api({
 
 api.getUserInfo()
   .then((result) => {
-    userInfo.setUserInfo(result['name'], result['about'], result['avatar']);
-    userInfo.setUserId(result['_id'])
+    userInfo.setUserInfo(result['name'], result['about']);
+    userInfo.setUserAvatar(result['avatar']);
+    userInfo.setUserId(result['_id']);
   })
   .then(() => {
     api.getInitialCards()
@@ -120,18 +121,23 @@ editAvatarButton.addEventListener('click', () => {
 //функции
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
+  editForm.renderLoading(true);
   const name = editForm.getInputValues()['name'];
   const about = editForm.getInputValues()['description'];
-  api.updateUserInfo({name, about, avatar})
+  api.updateUserInfo({name, about})
     .then((userData) => {
-      userInfo.setUserInfo(userData['name'], userData['about'], userData['avatar'])
+      userInfo.setUserInfo(userData['name'], userData['about'])
     }) 
+    .finally(() => {
+      editForm.renderLoading(false)
+    })
   editForm.close();
 }
 
 
 function handleAddFormSubmit(evt) {
   evt.preventDefault(); 
+  addForm.renderLoading(true);
   const inputValues = this.getInputValues();
   api.addNewCard({
     name: inputValues['name'],
@@ -142,32 +148,37 @@ function handleAddFormSubmit(evt) {
       photoGalleryItems.prepend(newCard.createCard());
       newCard.likes();
     })
+    .finally(() => {
+      addForm.renderLoading(false)
+    })
   
   addForm.close();
 }
 
 function handleEditAvatarFormSubmit(evt) {
   evt.preventDefault(); 
+  popupEditAvatar.renderLoading(true);
   const avatar = popupEditAvatar.getInputValues()['link'];
   api.editProfileAvatar(avatar)
     .then((userData) => {
       userInfo.setUserInfo(userData['name'], userData['about'], userData['avatar'])
     })
+    .finally(() => {
+      popupEditAvatar.renderLoading(false)
+    })
     popupEditAvatar.close();
 }
 
-function handleConfirmFormSubmit(evt, card) {
+function handleConfirmFormSubmit(evt, card, addButton) {
   evt.preventDefault();
+  popupConfirm.renderLoading(true);
   card.handleDeleteButton();
   popupConfirm.close();
   api.removeCard(card.getCardId())
+    .finally(() => {
+      popupConfirm.renderLoading(false)
+    })
 }
-
-// function createCard(dataCards, cardSelector, handleCardClick, handleDeleteButton) {
-//   const cardClass = new Card(dataCards, cardSelector, handleCardClick, handleDeleteButton);
-//   const card = cardClass.createCard();
-//   return card;
-// }
 
 function handleCardClick(name, link) {
   popupWithImage.open(name, link);

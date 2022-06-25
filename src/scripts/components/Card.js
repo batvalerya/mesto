@@ -83,7 +83,6 @@ export class Card {
     }
 
     getCardId() {
-      console.log(this._data)
       return this._data['_id'];
     }
 
