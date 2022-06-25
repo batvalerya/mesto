@@ -14,16 +14,22 @@ export class UserInfo {
     }
 
     setUserInfo(newName, newProfession) {
-        this._authorName.textContent = newName;
-        this._aboutAuthor.textContent = newProfession;
+        if(newName, newProfession) {
+            this._authorName.textContent = newName;
+            this._aboutAuthor.textContent = newProfession;
+        } 
     }
 
     setUserAvatar(avatar) {
-        this._authorAvatar.style.backgroundImage = `url(${avatar})`
+        if(avatar) {
+            this._authorAvatar.style.backgroundImage = `url(${avatar})`
+        }
     }
 
     setUserId(userId) {
-        this._userId = userId
+        if(userId) {
+            this._userId = userId
+        }
     }
 
     getUserId() {

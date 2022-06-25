@@ -29,7 +29,6 @@ export class Card {
       return this._card
     }
   
-  
     handleLikeButton() {
       this._buttonLike.classList.toggle('like-button_active');
     }
@@ -37,16 +36,12 @@ export class Card {
     counterLike(likes) {
       this._counterLike.textContent = likes;
     }
-  
     
     handleDeleteButton() {
       this._card.remove();
       this._card = null;
     }
 
-
-  
-  
     _setEventListeners() {
       this._cardImage.addEventListener('click', () => {
         this._handleCardClick(this._data.name, this._data.link);
@@ -63,13 +58,11 @@ export class Card {
           this._putLike(this);
           this._data.likes.push(this);
           this._counterLike.textContent = this._data.likes.length;
-          
         } else {
           this._removeLike(this);
           this._data.likes.pop(this);
           this._counterLike.textContent = this._data.likes.length;
         }
-  
       })
 
     }

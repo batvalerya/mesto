@@ -24,4 +24,12 @@ export class PopupWithConfirmation extends Popup {
     setDataCard(card) {
         this._card = card;
     }
+
+    renderLoading(isLoading) {
+        if(isLoading) {
+            this._submit.textContent = 'Сохранение...';
+        } else (
+            this._submit.textContent = this._submitInitialText
+        )
+    }
 }

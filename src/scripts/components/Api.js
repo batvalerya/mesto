@@ -23,7 +23,6 @@ export class Api {
         return this._request('/users/me');
     }
 
-
     getInitialCards() {
         return this._request('/cards');
     }
